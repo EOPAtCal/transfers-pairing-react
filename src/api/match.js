@@ -40,7 +40,7 @@ const majorAndCollegeMatch = (mentee, mentors) =>
     mentor => mentor.college === mentee.college && mentor.major === mentee.major
   );
 
-const getMentorLimit = ({ limit }) => (limit.charAt(0) == '2' ? 8 : 4);
+const getMentorLimit = ({ limit }) => (limit.charAt(0) === '2' ? 8 : 4);
 
 function setup(matches, mentors) {
   mentors.forEach(mentor => {
