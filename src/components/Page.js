@@ -6,7 +6,6 @@ const Page = ({
   matches,
   options,
   handleChangeOptions,
-  handleResetAllToDefaults,
   handleMatch,
   unmatchedMentors,
   unmatchedMentees
@@ -32,8 +31,6 @@ const Page = ({
             <Main
               handleMatch={handleMatch}
               matches={matches}
-              handleChangeOptions={handleChangeOptions}
-              handleResetAllToDefaults={handleResetAllToDefaults}
               unmatchedMentees={unmatchedMentees}
               unmatchedMentors={unmatchedMentors}
             />
@@ -42,7 +39,6 @@ const Page = ({
             <Options
               options={options}
               handleChangeOptions={handleChangeOptions}
-              handleResetAllToDefaults={handleResetAllToDefaults}
             />
           </li>
         </ul>

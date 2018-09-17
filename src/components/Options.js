@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 
 class Options extends PureComponent {
-  state = { ...this.props.options.value };
+  state = { ...this.props.options };
 
   handleChange = event => {
     const target = event.target;
@@ -13,12 +13,7 @@ class Options extends PureComponent {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.handleChangeOptions(this.props.options.key, this.state.options);
-  };
-
-  handleReset = e => {
-    e.preventDefault();
-    this.props.handleResetAllToDefaults(this.props.options.key);
+    this.props.handleChangeOptions(this.props.options);
   };
 
   render() {
@@ -39,7 +34,9 @@ class Options extends PureComponent {
     return (
       <div>
         <h2 className="uk-text-capitalize">options</h2>
-        <h4>Be careful: what you modify here will affect matching</h4>
+        <h4>
+          Be careful: what you modify here will affect your matching results
+        </h4>
         <hr className="uk-divider-icon" />
         <form
           className="uk-text-left uk-form-horizontal"
@@ -86,7 +83,6 @@ class Options extends PureComponent {
                 <legend className="uk-legend uk-text-capitalize">
                   mentor data index
                 </legend>
-
                 <div className="uk-margin">
                   <label className="uk-form-label" htmlFor="form-stacked-text">
                     email
@@ -235,7 +231,6 @@ class Options extends PureComponent {
                   type="checkbox"
                   checked={matchByMajors}
                   onChange={this.handleChange}
-                  disabled
                 />
                 match by majors
               </label>
@@ -248,21 +243,12 @@ class Options extends PureComponent {
                   type="checkbox"
                   checked={matchByColleges}
                   onChange={this.handleChange}
-                  disabled
                 />
                 match by colleges
               </label>
             </div>
           </fieldset>
           <div className="uk-grid-small" uk-grid="">
-            <div className="uk-width-1-2@s">
-              <button
-                className="uk-button uk-button-default"
-                onClick={this.handleReset}
-              >
-                reset all to defaults
-              </button>
-            </div>
             <div className="uk-width-1-2@s">
               <input
                 className="uk-button uk-button-primary"

@@ -99,7 +99,6 @@ class App extends PureComponent {
             unmatchedMentors={unmatchedMentors}
             unmatchedMentees={unmatchedMentees}
             handleChangeOptions={this.handleChangeOptions}
-            handleResetAllToDefaults={this.handleResetAllToDefaults}
           />
         </div>
       </div>

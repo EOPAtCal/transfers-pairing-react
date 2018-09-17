@@ -26,7 +26,7 @@ const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
       </div>
     </div>
     <div>
-      {matches.map(({ mentor, mentees, reason }) => (
+      {matches.map(({ mentor, mentees, reasons }) => (
         <div
           key={mentor}
           className="uk-child-width-1-3@s uk-grid-small uk-grid-match uk-card uk-card-default uk-card-small uk-card-body uk-card-hover"
@@ -44,7 +44,7 @@ const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
             ))}
           </ul>
           <ul className="uk-list uk-list-divider">
-            {reason.map((reason, idx) => (
+            {reasons.map((reason, idx) => (
               <li key={idx}>{reason}</li>
             ))}
           </ul>
