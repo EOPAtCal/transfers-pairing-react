@@ -12,35 +12,41 @@ const Page = ({
   unmatchedMentees
 }) => (
   <div className="uk-container">
-    <div>
-      <ul className="uk-subnav uk-subnav-pill" uk-switcher="">
-        <li>
-          <a>Main</a>
-        </li>
-        <li>
-          <a>Options</a>
-        </li>
-      </ul>
-
-      <ul className="uk-switcher uk-margin">
-        <li>
-          <Main
-            handleMatch={handleMatch}
-            matches={matches}
-            handleChangeOptions={handleChangeOptions}
-            handleResetAllToDefaults={handleResetAllToDefaults}
-            unmatchedMentees={unmatchedMentees}
-            unmatchedMentors={unmatchedMentors}
-          />
-        </li>
-        <li>
-          <Options
-            options={options}
-            handleChangeOptions={handleChangeOptions}
-            handleResetAllToDefaults={handleResetAllToDefaults}
-          />
-        </li>
-      </ul>
+    <div uk-grid>
+      <div class="uk-width-auto@m">
+        <ul
+          class="uk-tab-left"
+          uk-tab="connect: #component-tab-left; animation: uk-animation-fade"
+        >
+          <li>
+            <a href="#">Main</a>
+          </li>
+          <li>
+            <a href="#">Options</a>
+          </li>
+        </ul>
+      </div>
+      <div class="uk-width-expand@m">
+        <ul id="component-tab-left" className="uk-switcher uk-margin">
+          <li>
+            <Main
+              handleMatch={handleMatch}
+              matches={matches}
+              handleChangeOptions={handleChangeOptions}
+              handleResetAllToDefaults={handleResetAllToDefaults}
+              unmatchedMentees={unmatchedMentees}
+              unmatchedMentors={unmatchedMentors}
+            />
+          </li>
+          <li>
+            <Options
+              options={options}
+              handleChangeOptions={handleChangeOptions}
+              handleResetAllToDefaults={handleResetAllToDefaults}
+            />
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 );
