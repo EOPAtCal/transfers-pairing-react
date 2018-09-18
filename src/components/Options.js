@@ -168,7 +168,7 @@ class Options extends PureComponent {
               </fieldset>
               <fieldset className="uk-fieldset">
                 <legend className="uk-legend uk-text-capitalize">
-                  mentee data index
+                  mentee data position
                 </legend>
 
                 <div className="uk-margin">

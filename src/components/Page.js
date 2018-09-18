@@ -11,14 +11,14 @@ const Page = ({
   unmatchedMentees
 }) => (
   <div className="uk-container">
-    <div uk-grid>
+    <div data-uk-grid>
       <div class="uk-width-auto@m">
         <ul
           class="uk-tab-left"
           uk-tab="connect: #component-tab-left; animation: uk-animation-fade"
         >
           <li>
-            <a href="#">Main</a>
+            <a href="#">Results</a>
           </li>
           <li>
             <a href="#">Options</a>

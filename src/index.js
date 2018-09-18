@@ -22,11 +22,7 @@ class App extends PureComponent {
   };
 
   handleMatch = async () => {
-    const {
-      matches: matches,
-      unmatchedMentees: unmatchedMentees,
-      unmatchedMentors: unmatchedMentors
-    } = await this.fetch();
+    const { matches, unmatchedMentees, unmatchedMentors } = await this.fetch();
     this.setState({
       matches,
       unmatchedMentees,
@@ -49,10 +45,11 @@ class App extends PureComponent {
     script.async = true;
     script.defer = true;
     document.body.appendChild(script);
+    return script;
   }
 
   async componentDidMount() {
-    this.loadScript();
+    const script = await this.loadScript();
     this.loadUIKit();
     script.onload = async () => {
       const {
