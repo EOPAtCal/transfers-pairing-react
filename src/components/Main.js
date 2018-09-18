@@ -7,24 +7,27 @@ const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
         onClick={handleMatch}
         className="uk-button uk-button-danger uk-button-large uk-text-large"
       >
-        Match!
+        <span uk-icon="heart" />
+        Match
       </button>
     </div>
     <hr className="uk-divider-icon" />
-    <div
-      className="uk-child-width-1-3@s uk-grid-small uk-grid-match"
-      uk-grid=""
-    >
-      <div>
-        <h2 className="uk-text-capitalize">mentor</h2>
+    {matches.length > 0 && (
+      <div
+        className="uk-child-width-1-3@s uk-grid-small uk-grid-match"
+        uk-grid=""
+      >
+        <div>
+          <h2 className="uk-text-capitalize">mentor</h2>
+        </div>
+        <div>
+          <h2 className="uk-text-capitalize">mentees</h2>
+        </div>
+        <div>
+          <h2 className="uk-text-capitalize">reason</h2>
+        </div>
       </div>
-      <div>
-        <h2 className="uk-text-capitalize">mentees</h2>
-      </div>
-      <div>
-        <h2 className="uk-text-capitalize">reason</h2>
-      </div>
-    </div>
+    )}
     <div>
       {matches.map(({ mentor, mentees, reason }) => (
         <div
@@ -51,17 +54,20 @@ const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
         </div>
       ))}
     </div>
-    <div
-      className="uk-child-width-1-2@s uk-grid-small uk-grid-match uk-margin"
-      uk-grid=""
-    >
-      <div>
-        <h2 className="uk-text-capitalize">unmatched mentors</h2>
-      </div>
-      <div>
-        <h2 className="uk-text-capitalize">unmatched mentees</h2>
-      </div>
-    </div>
+    {unmatchedMentees.length > 0 ||
+      (unmatchedMentors.length > 0 && (
+        <div
+          className="uk-child-width-1-2@s uk-grid-small uk-grid-match uk-margin"
+          uk-grid=""
+        >
+          <div>
+            <h2 className="uk-text-capitalize">unmatched mentors</h2>
+          </div>
+          <div>
+            <h2 className="uk-text-capitalize">unmatched mentees</h2>
+          </div>
+        </div>
+      ))}
     <div>
       <div
         className="uk-child-width-1-2@s uk-grid-small uk-card uk-card-default uk-card-small uk-card-body"

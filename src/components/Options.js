@@ -33,9 +33,9 @@ class Options extends PureComponent {
     } = this.state;
     return (
       <div>
-        <h2 className="uk-text-capitalize">options</h2>
-        <h4>
-          Be careful: what you modify here will affect your matching results
+        <h2 className="uk-text-capitalize uk-margin-small-bottom">options</h2>
+        <h4 className="uk-margin-remove-top">
+          Be careful, what you modify here will affect the matching results.
         </h4>
         <hr className="uk-divider-icon" />
         <form
@@ -81,7 +81,7 @@ class Options extends PureComponent {
               </fieldset>
               <fieldset className="uk-fieldset">
                 <legend className="uk-legend uk-text-capitalize">
-                  mentor data index
+                  mentor data position
                 </legend>
                 <div className="uk-margin">
                   <label className="uk-form-label" htmlFor="form-stacked-text">
@@ -251,9 +251,9 @@ class Options extends PureComponent {
           <div className="uk-grid-small" uk-grid="">
             <div className="uk-width-1-2@s">
               <input
-                className="uk-button uk-button-primary"
+                className="uk-button uk-button-danger"
                 type="submit"
-                value="Save Changes"
+                value="Save & Match"
               />
             </div>
           </div>
