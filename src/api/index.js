@@ -19,12 +19,14 @@ var signoutButton = document.getElementById('signout_button');
  */
 async function updateSigninStatus(isSignedIn) {
   if (isSignedIn) {
-    authorizeButton.style.display = 'none';
+    signoutButton.style.display = 'none';
     signoutButton.style.display = 'block';
+    signoutButton.className = 'uk-button uk-button-secondary';
     await initMatch();
   } else {
     authorizeButton.style.display = 'block';
-    signoutButton.style.display = 'none';
+    authorizeButton.style.display = 'none';
+    authorizeButton.className = 'uk-button uk-button-secondary';
   }
 }
 /**

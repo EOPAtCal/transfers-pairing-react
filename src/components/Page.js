@@ -11,10 +11,10 @@ const Page = ({
   unmatchedMentees
 }) => (
   <div className="uk-container">
-    <div data-uk-grid>
-      <div class="uk-width-auto@m">
+    <div uk-grid="">
+      <div className="uk-width-auto@m">
         <ul
-          class="uk-tab-left"
+          className="uk-tab-left"
           uk-tab="connect: #component-tab-left; animation: uk-animation-fade"
         >
           <li>
@@ -25,7 +25,7 @@ const Page = ({
           </li>
         </ul>
       </div>
-      <div class="uk-width-expand@m">
+      <div className="uk-width-expand@m">
         <ul id="component-tab-left" className="uk-switcher uk-margin">
           <li>
             <Main

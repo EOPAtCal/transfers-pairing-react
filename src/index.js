@@ -49,9 +49,8 @@ class App extends PureComponent {
   }
 
   async componentDidMount() {
-    const script = await this.loadScript();
     this.loadUIKit();
-    script.onload = async () => {
+    this.loadScript().onload = async () => {
       const {
         matches,
         unmatchedMentees,
