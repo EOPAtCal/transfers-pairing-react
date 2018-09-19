@@ -1,5 +1,8 @@
 import React, { PureComponent } from 'react';
 import { render } from 'react-dom';
+import UIkit from 'uikit';
+import Icons from 'uikit/dist/js/uikit-icons';
+import '../node_modules/uikit/dist/css/uikit.min.css';
 import Page from './components/Page';
 import handleClientLoad from './api';
 import defaults from './defaults/defaults.json';
@@ -31,7 +34,13 @@ class App extends PureComponent {
     return await handleClientLoad(this.state.options);
   }
 
+  loadUIkit() {
+    UIkit.use(Icons);
+    window.UIkit = UIkit;
+  }
+
   loadScript() {
+    this.loadUIkit();
     const script = document.createElement('script');
     script.src = 'https://apis.google.com/js/api.js';
     script.async = true;

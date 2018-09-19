@@ -17,10 +17,10 @@ const Page = ({
         uk-tab="connect: #component-tab-left; animation: uk-animation-fade"
       >
         <li>
-          <a href="#">Results</a>
+          <a>Results</a>
         </li>
         <li>
-          <a href="#">Options</a>
+          <a>Options</a>
         </li>
       </ul>
     </div>
