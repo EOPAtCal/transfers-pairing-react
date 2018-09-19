@@ -31,7 +31,8 @@ class Options extends PureComponent {
       menteeRange,
       menteeEmail,
       menteeCollege,
-      menteeMajor
+      menteeMajor,
+      randomMatch
     } = this.state;
     return (
       <Fragment>
@@ -161,6 +162,12 @@ class Options extends PureComponent {
               labelText="match by colleges"
               name="matchByColleges"
               checked={matchByColleges}
+              onChange={this.handleChange}
+            />
+            <Input
+              labelText="random match all unmatched"
+              name="randomMatch"
+              checked={randomMatch}
               onChange={this.handleChange}
             />
           </Fieldset>

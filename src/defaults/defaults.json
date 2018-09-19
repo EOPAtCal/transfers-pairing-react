@@ -11,5 +11,6 @@
   "menteeRange": "A2:AC351",
   "menteeEmail": 8,
   "menteeCollege": 9,
-  "menteeMajor": 28
+  "menteeMajor": 28,
+  "randomMatch": true
 }

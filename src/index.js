@@ -1,9 +1,11 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, StrictMode } from 'react';
 import { render } from 'react-dom';
 import UIkit from 'uikit';
 import Icons from 'uikit/dist/js/uikit-icons';
 import '../node_modules/uikit/dist/css/uikit.min.css';
 import Page from './components/Page';
+import ErrorBoundary from './components/ErrorBoundary';
+import Loading from './components/Loading';
 import handleClientLoad from './api';
 import defaults from './defaults/defaults.json';
 
@@ -12,21 +14,38 @@ class App extends PureComponent {
     matches: [],
     unmatchedMentees: [],
     unmatchedMentors: [],
-    options: defaults
+    options: defaults,
+    isLoading: true
   };
 
-  handleChangeOptions = options => {
-    this.setState({
-      options
+  notify() {
+    UIkit.notification({
+      message: 'Saved!',
+      status: 'default',
+      pos: 'top-right',
+      timeout: 5000
     });
+  }
+
+  handleChangeOptions = options => {
+    this.setState(
+      {
+        options
+      },
+      this.notify
+    );
   };
 
   handleMatch = async () => {
+    this.setState({
+      isLoading: true
+    });
     const { matches, unmatchedMentees, unmatchedMentors } = await this.fetch();
     this.setState({
       matches,
       unmatchedMentees,
-      unmatchedMentors
+      unmatchedMentors,
+      isLoading: false
     });
   };
 
@@ -59,7 +78,8 @@ class App extends PureComponent {
       this.setState({
         matches,
         unmatchedMentees,
-        unmatchedMentors
+        unmatchedMentors,
+        isLoading: false
       });
     };
   }
@@ -67,11 +87,14 @@ class App extends PureComponent {
   render() {
     const {
       matches = [],
-      unmatchedMentees = [],
-      unmatchedMentors = [],
-      options = {}
+      unmatchedMentees,
+      unmatchedMentors,
+      options = {},
+      isLoading
     } = this.state;
-    return (
+    return isLoading ? (
+      <Loading />
+    ) : (
       <Page
         handleMatch={this.handleMatch}
         options={options}
@@ -84,5 +107,11 @@ class App extends PureComponent {
   }
 }
 
-const rootElement = document.getElementById('root');
-render(<App />, rootElement);
+render(
+  <StrictMode>
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
+  </StrictMode>,
+  document.getElementById('root')
+);

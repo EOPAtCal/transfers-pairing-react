@@ -1,6 +1,7 @@
 import React from 'react';
 import Options from './Options';
 import Main from './Main';
+import Empty from './Empty';
 
 const Page = ({
   matches,
@@ -27,12 +28,16 @@ const Page = ({
     <div className="uk-width-expand@m">
       <ul id="component-tab-left" className="uk-switcher">
         <li>
-          <Main
-            handleMatch={handleMatch}
-            matches={matches}
-            unmatchedMentees={unmatchedMentees}
-            unmatchedMentors={unmatchedMentors}
-          />
+          {matches.length > 0 ? (
+            <Main
+              handleMatch={handleMatch}
+              matches={matches}
+              unmatchedMentees={unmatchedMentees}
+              unmatchedMentors={unmatchedMentors}
+            />
+          ) : (
+            <Empty />
+          )}
         </li>
         <li>
           <Options
