@@ -54,9 +54,8 @@ function filterUnmatched(matchesRaw) {
 
 function match({ mentors, mentees }) {
   let mentorIdx = 0;
-  let mentor;
-  let mentee;
   let menteeIdx = 0;
+  let mentee;
   let reason;
   let ok = 1;
   let idx = 0;
@@ -76,15 +75,15 @@ function match({ mentors, mentees }) {
       ok = 0;
     }
     if (ok) {
-      mentor = mentors[mentorIdx];
-      pair(matchesRaw, idx++, mentee, reason);
-      if (isMentorFullyPaired(mentor)) {
-        mentors = mentors.splice(mentorIdx, 1);
+      pair(matchesRaw, idx, mentee, reason);
+      if (isMentorFullyPaired(matchesRaw[idx])) {
+        mentors.splice(mentorIdx, 1);
       }
     }
     if (++menteeIdx > mentees.length - 1) {
       break;
     }
+    idx += 1;
     ok = 1;
   }
   const { matches, unmatchedMentors } = filterUnmatched(matchesRaw);
@@ -93,6 +92,56 @@ function match({ mentors, mentees }) {
     unmatchedMentors,
     unmatchedMentees
   };
+}
+
+function randomMatch({ matches, unmatchedMentors, unmatchedMentees }) {}
+
+function prettyPrint({ matches, unmatchedMentors, unmatchedMentees }) {
+  if (matches) {
+    console.log('matches:');
+    console.log(matches);
+  }
+  if (unmatchedMentors) {
+    console.log('unmatched mentors:');
+    console.log(unmatchedMentors);
+  }
+  if (unmatchedMentees) {
+    console.log('unmatched mentees:');
+    console.log(unmatchedMentees);
+  }
+}
+
+function tests({ mentors, mentees }) {
+  // few mentees
+  prettyPrint(
+    match({
+      mentors,
+      mentees: mentees.slice(0, 3)
+    })
+  );
+  // few mentors
+  prettyPrint(
+    match({
+      mentors: mentors.slice(0, 3),
+      mentees
+    })
+  );
+  // common case
+  prettyPrint(
+    match({
+      mentors,
+      mentees
+    })
+  );
+  // randomly match unmatched
+  prettyPrint(
+    randomMatch(
+      match({
+        mentors,
+        mentees
+      })
+    )
+  );
 }
 
 export default match;
