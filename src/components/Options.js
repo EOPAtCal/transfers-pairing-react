@@ -1,4 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
+import Input from './Input';
+import Fieldset from './Fieldset';
 
 class Options extends PureComponent {
   state = { ...this.props.options };
@@ -55,210 +57,113 @@ class Options extends PureComponent {
         >
           <div className="uk-grid-small" uk-grid="">
             <div className="uk-width-1-2@s">
-              <fieldset className="uk-fieldset">
-                <legend className="uk-legend uk-text-capitalize">
-                  mentor spreadsheet
-                </legend>
-                <div className="uk-margin">
-                  <label className="uk-form-label" htmlFor="form-stacked-text">
-                    spreadsheet ID
-                  </label>
-                  <div className="uk-form-controls">
-                    <input
-                      name="mentorSpreadsheetId"
-                      className="uk-input uk-form-width-small"
-                      type="text"
-                      required
-                      value={mentorSpreadsheetId}
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                </div>
-                <div className="uk-margin">
-                  <label className="uk-form-label" htmlFor="form-stacked-text">
-                    spreadsheet range
-                  </label>
-                  <div className="uk-form-controls">
-                    <input
-                      name="mentorRange"
-                      className="uk-input uk-form-width-small"
-                      type="text"
-                      required
-                      value={mentorRange}
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                </div>
-              </fieldset>
-              <fieldset className="uk-fieldset">
-                <legend className="uk-legend uk-text-capitalize">
-                  mentor data position
-                </legend>
-                <div className="uk-margin">
-                  <label className="uk-form-label" htmlFor="form-stacked-text">
-                    email
-                  </label>
-                  <div className="uk-form-controls">
-                    <input
-                      name="mentorEmail"
-                      className="uk-input uk-form-width-small"
-                      type="number"
-                      required
-                      value={mentorEmail}
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                </div>
-                <div className="uk-margin">
-                  <label className="uk-form-label" htmlFor="form-stacked-text">
-                    college
-                  </label>
-                  <div className="uk-form-controls">
-                    <input
-                      name="mentorCollege"
-                      className="uk-input uk-form-width-small"
-                      type="number"
-                      required
-                      value={mentorCollege}
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                </div>
-                <div className="uk-margin">
-                  <label className="uk-form-label" htmlFor="form-stacked-text">
-                    major
-                  </label>
-                  <div className="uk-form-controls">
-                    <input
-                      name="mentorMajor"
-                      className="uk-input uk-form-width-small"
-                      type="number"
-                      required
-                      value={mentorMajor}
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                </div>
-              </fieldset>
+              <Fieldset label="mentor spreadsheet">
+                <Input
+                  labelText="spreadsheet ID"
+                  name="mentorSpreadsheetId"
+                  type="text"
+                  required
+                  value={mentorSpreadsheetId}
+                  onChange={this.handleChange}
+                />
+                <Input
+                  labelText="spreadsheet range"
+                  name="mentorRange"
+                  type="text"
+                  required
+                  value={mentorRange}
+                  onChange={this.handleChange}
+                />
+              </Fieldset>
+              <Fieldset label="mentor data position">
+                <Input
+                  labelText="email"
+                  name="mentorEmail"
+                  type="number"
+                  required
+                  value={mentorEmail}
+                  onChange={this.handleChange}
+                />
+                <Input
+                  labelText="college"
+                  name="mentorCollege"
+                  type="number"
+                  required
+                  value={mentorCollege}
+                  onChange={this.handleChange}
+                />
+                <Input
+                  labelText="major"
+                  name="mentorMajor"
+                  type="number"
+                  required
+                  value={mentorMajor}
+                  onChange={this.handleChange}
+                />
+              </Fieldset>
             </div>
             <div className="uk-width-1-2@s">
-              <fieldset className="uk-fieldset">
-                <legend className="uk-legend uk-text-capitalize">
-                  mentee spreadsheet
-                </legend>
-                <div className="uk-margin">
-                  <label className="uk-form-label" htmlFor="form-stacked-text">
-                    spreadsheet ID
-                  </label>
-                  <div className="uk-form-controls">
-                    <input
-                      name="menteeSpreadsheetId"
-                      className="uk-input uk-form-width-small"
-                      type="text"
-                      required
-                      value={menteeSpreadsheetId}
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                </div>
-                <div className="uk-margin">
-                  <label className="uk-form-label" htmlFor="form-stacked-text">
-                    spreadsheet range
-                  </label>
-                  <div className="uk-form-controls">
-                    <input
-                      name="menteeRange"
-                      className="uk-input uk-form-width-small"
-                      type="text"
-                      required
-                      value={menteeRange}
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                </div>
-              </fieldset>
-              <fieldset className="uk-fieldset">
-                <legend className="uk-legend uk-text-capitalize">
-                  mentee data position
-                </legend>
+              <Fieldset label="mentee spreadsheet">
+                <Input
+                  labelText="spreadsheet ID"
+                  name="menteeSpreadsheetId"
+                  type="text"
+                  required
+                  value={menteeSpreadsheetId}
+                  onChange={this.handleChange}
+                />
 
-                <div className="uk-margin">
-                  <label className="uk-form-label" htmlFor="form-stacked-text">
-                    email
-                  </label>
-                  <div className="uk-form-controls">
-                    <input
-                      name="menteeEmail"
-                      className="uk-input uk-form-width-small"
-                      type="number"
-                      required
-                      value={menteeEmail}
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                </div>
-                <div className="uk-margin">
-                  <label className="uk-form-label" htmlFor="form-stacked-text">
-                    college
-                  </label>
-                  <div className="uk-form-controls">
-                    <input
-                      name="menteeCollege"
-                      className="uk-input uk-form-width-small"
-                      type="number"
-                      required
-                      value={menteeCollege}
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                </div>
-                <div className="uk-margin">
-                  <label className="uk-form-label" htmlFor="form-stacked-text">
-                    major
-                  </label>
-                  <div className="uk-form-controls">
-                    <input
-                      name="menteeMajor"
-                      className="uk-input uk-form-width-small"
-                      type="number"
-                      required
-                      value={menteeMajor}
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                </div>
-              </fieldset>
+                <Input
+                  labelText="spreadsheet range"
+                  name="menteeRange"
+                  type="text"
+                  required
+                  value={menteeRange}
+                  onChange={this.handleChange}
+                />
+              </Fieldset>
+              <Fieldset label="mentee data position">
+                <Input
+                  labelText="email"
+                  name="menteeEmail"
+                  type="number"
+                  required
+                  value={menteeEmail}
+                  onChange={this.handleChange}
+                />
+                <Input
+                  labelText="college"
+                  name="menteeCollege"
+                  type="number"
+                  required
+                  value={menteeCollege}
+                  onChange={this.handleChange}
+                />
+                <Input
+                  labelText="major"
+                  name="menteeMajor"
+                  type="number"
+                  required
+                  value={menteeMajor}
+                  onChange={this.handleChange}
+                />
+              </Fieldset>
             </div>
           </div>
-          <fieldset className="uk-fieldset">
-            <legend className="uk-legend uk-text-capitalize">
-              match criteria
-            </legend>
-            <div className="uk-margin">
-              <label>
-                <input
-                  name="matchByMajors"
-                  className="uk-checkbox uk-margin-small-right"
-                  type="checkbox"
-                  checked={matchByMajors}
-                  onChange={this.handleChange}
-                />
-                match by majors
-              </label>
-            </div>
-            <div className="uk-margin">
-              <label>
-                <input
-                  name="matchByColleges"
-                  className="uk-checkbox uk-margin-small-right"
-                  type="checkbox"
-                  checked={matchByColleges}
-                  onChange={this.handleChange}
-                />
-                match by colleges
-              </label>
-            </div>
-          </fieldset>
+          <Fieldset label="match criteria">
+            <Input
+              labelText="match by majors"
+              name="matchByMajors"
+              checked={matchByMajors}
+              onChange={this.handleChange}
+            />
+            <Input
+              labelText="match by colleges"
+              name="matchByColleges"
+              checked={matchByColleges}
+              onChange={this.handleChange}
+            />
+          </Fieldset>
           <div className="uk-grid-small" uk-grid="">
             <div className="uk-width-1-2@s">
               <input
