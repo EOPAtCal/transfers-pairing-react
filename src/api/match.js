@@ -1,12 +1,16 @@
-function pair(matches, idx, mentee, reason) {
-  matches[idx].mentees.push(mentee);
-  matches[idx].reasons.push(reason);
+function pair(matchesRaw, idx, mentee, reason) {
+  matchesRaw[idx].mentees.push(mentee);
+  matchesRaw[idx].reasons.push(reason);
 }
 
-const isMentorFullyPaired = (matches, mentorId) => {
-  const mentor = matches[mentorId];
+const isMentorFullyPaired = mentor => {
   return mentor.maxMenteesSize === mentor.mentees.length;
 };
+
+const majorAndCollegeMatch = (mentee, mentors) =>
+  mentors.findIndex(
+    mentor => mentor.college === mentee.college && mentor.major === mentee.major
+  );
 
 const majorMatch = (mentee, mentors) =>
   mentors.findIndex(mentor => mentor.major === mentee.major);
@@ -14,48 +18,51 @@ const majorMatch = (mentee, mentors) =>
 const collegeMatch = (mentee, mentors) =>
   mentors.findIndex(mentor => mentor.college === mentee.college);
 
-const majorAndCollegeMatch = (mentee, mentors) =>
-  mentors.findIndex(
-    mentor => mentor.college === mentee.college && mentor.major === mentee.major
-  );
-
 const getMentorLimit = ({ limit }) => (limit.charAt(0) === '2' ? 8 : 4);
 
-function setup(matches, mentors) {
+function setup(mentors) {
+  const matchesRaw = [];
   mentors.forEach((mentor, idx) => {
-    matches[idx] = {
+    matchesRaw[idx] = {
       mentor: mentor,
       mentees: [],
       maxMenteesSize: getMentorLimit(mentor),
       reasons: []
     };
   });
+  return matchesRaw;
 }
 
 function filterUnmatched(matchesRaw) {
   const matches = [];
   const unmatchedMentors = [];
-  matchesRaw.forEach(({ mentor, mentees, reasons }) => {
+  matchesRaw.forEach(({ mentor, mentees, reasons, maxMenteesSize }) => {
     if (mentees.length > 0 || reasons.length > 0) {
       matches.push({
         mentor,
         mentees,
-        reasons
+        reasons,
+        maxMenteesSize
       });
     } else unmatchedMentors.push(mentor);
   });
+  return {
+    matches,
+    unmatchedMentors
+  };
 }
 
-function execMatch({ mentors, mentees }) {
-  const matchesRaw = [];
-  const unmatchedMentees = [];
+function match({ mentors, mentees }) {
   let mentorIdx = 0;
   let mentor;
   let mentee;
   let menteeIdx = 0;
   let reason;
   let ok = 1;
-  setup(matchesRaw, mentors);
+  let idx = 0;
+  // let mentors = mentors.slice(0); // copy preventing changes to original
+  const unmatchedMentees = [];
+  const matchesRaw = setup(mentors);
   while (mentors.length > 0) {
     mentee = mentees[menteeIdx];
     if ((mentorIdx = majorAndCollegeMatch(mentee, mentors)) > -1) {
@@ -67,13 +74,12 @@ function execMatch({ mentors, mentees }) {
     } else {
       unmatchedMentees.push(mentee);
       ok = 0;
-      continue;
     }
     if (ok) {
       mentor = mentors[mentorIdx];
-      pair(matchesRaw, mentor.id, mentee, reason);
-      if (isMentorFullyPaired(matchesRaw, mentor.id)) {
-        mentors = mentors.filter((_, idx) => idx !== mentorIdx);
+      pair(matchesRaw, idx++, mentee, reason);
+      if (isMentorFullyPaired(mentor)) {
+        mentors = mentors.splice(mentorIdx, 1);
       }
     }
     if (++menteeIdx > mentees.length - 1) {
@@ -86,18 +92,6 @@ function execMatch({ mentors, mentees }) {
     matches,
     unmatchedMentors,
     unmatchedMentees
-  };
-}
-
-function match({ mentees, mentors }) {
-  let { matches, unmatchedMentees, unmatchedMentors } = execMatch({
-    mentors,
-    mentees
-  });
-  return {
-    matches,
-    unmatchedMentees,
-    unmatchedMentors
   };
 }
 
