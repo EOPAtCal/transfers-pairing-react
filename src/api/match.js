@@ -1,33 +1,12 @@
-function pair(matches, mentorId, mentee, reason) {
-  matches[mentorId].mentees.push(mentee);
-  matches[mentorId].reasons.push(reason);
+function pair(matches, idx, mentee, reason) {
+  matches[idx].mentees.push(mentee);
+  matches[idx].reasons.push(reason);
 }
 
-function selectPairs(matches) {
-  const results = [];
-  for (const mentorId in matches) {
-    results.push({
-      mentor: mentorId,
-      mentees: matches[mentorId].mentees.map(m => m.id),
-      reasons: matches[mentorId].reasons
-    });
-  }
-  return results;
-}
-
-function removeUnpaired(matches, unmatchedMentors) {
-  for (const mentorId in matches) {
-    if (matches[mentorId].mentees.length === 0) {
-      unmatchedMentors.push(mentorId);
-      delete matches[mentorId];
-    }
-  }
-}
 const isMentorFullyPaired = (matches, mentorId) => {
   const mentor = matches[mentorId];
   return mentor.maxMenteesSize === mentor.mentees.length;
 };
-const filterIndex = (lst, index) => lst.filter((_, idx) => idx !== index);
 
 const majorMatch = (mentee, mentors) =>
   mentors.findIndex(mentor => mentor.major === mentee.major);
@@ -43,8 +22,9 @@ const majorAndCollegeMatch = (mentee, mentors) =>
 const getMentorLimit = ({ limit }) => (limit.charAt(0) === '2' ? 8 : 4);
 
 function setup(matches, mentors) {
-  mentors.forEach(mentor => {
-    matches[mentor.id] = {
+  mentors.forEach((mentor, idx) => {
+    matches[idx] = {
+      mentor: mentor,
       mentees: [],
       maxMenteesSize: getMentorLimit(mentor),
       reasons: []
@@ -52,15 +32,30 @@ function setup(matches, mentors) {
   });
 }
 
+function filterUnmatched(matchesRaw) {
+  const matches = [];
+  const unmatchedMentors = [];
+  matchesRaw.forEach(({ mentor, mentees, reasons }) => {
+    if (mentees.length > 0 || reasons.length > 0) {
+      matches.push({
+        mentor,
+        mentees,
+        reasons
+      });
+    } else unmatchedMentors.push(mentor);
+  });
+}
+
 function execMatch({ mentors, mentees }) {
-  const matches = {};
+  const matchesRaw = [];
   const unmatchedMentees = [];
   let mentorIdx = 0;
   let mentor;
   let mentee;
   let menteeIdx = 0;
   let reason;
-  setup(matches, mentors);
+  let ok = 1;
+  setup(matchesRaw, mentors);
   while (mentors.length > 0) {
     mentee = mentees[menteeIdx];
     if ((mentorIdx = majorAndCollegeMatch(mentee, mentors)) > -1) {
@@ -70,37 +65,35 @@ function execMatch({ mentors, mentees }) {
     } else if ((mentorIdx = majorMatch(mentee, mentors)) > -1) {
       reason = 'major';
     } else {
-      unmatchedMentees.push(mentee.id);
-      menteeIdx++;
-      if (menteeIdx > mentees.length - 1) {
-        break;
-      }
+      unmatchedMentees.push(mentee);
+      ok = 0;
       continue;
     }
-    mentor = mentors[mentorIdx];
-    pair(matches, mentor.id, mentee, reason);
-    if (isMentorFullyPaired(matches, mentor.id)) {
-      mentors = filterIndex(mentors, mentorIdx);
+    if (ok) {
+      mentor = mentors[mentorIdx];
+      pair(matchesRaw, mentor.id, mentee, reason);
+      if (isMentorFullyPaired(matchesRaw, mentor.id)) {
+        mentors = mentors.filter((_, idx) => idx !== mentorIdx);
+      }
     }
-    menteeIdx++;
-    if (menteeIdx > mentees.length - 1) {
+    if (++menteeIdx > mentees.length - 1) {
       break;
     }
+    ok = 1;
   }
+  const { matches, unmatchedMentors } = filterUnmatched(matchesRaw);
   return {
     matches,
+    unmatchedMentors,
     unmatchedMentees
   };
 }
 
 function match({ mentees, mentors }) {
-  let { matches, unmatchedMentees } = execMatch({
+  let { matches, unmatchedMentees, unmatchedMentors } = execMatch({
     mentors,
     mentees
   });
-  const unmatchedMentors = [];
-  removeUnpaired(matches, unmatchedMentors);
-  matches = selectPairs(matches);
   return {
     matches,
     unmatchedMentees,
