@@ -80,12 +80,18 @@ const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
           >
             <ul className="uk-list uk-list-divider">
               {unmatchedMentors.map((mentor, idx) => (
-                <li key={idx}>{mentor}</li>
+                <li key={idx}>
+                  {mentor}
+                  <button uk-icon="copy" />
+                </li>
               ))}
             </ul>
             <ul className="uk-list uk-list-divider">
               {unmatchedMentees.map((mentee, idx) => (
-                <li key={idx}>{mentee}</li>
+                <li key={idx}>
+                  {mentee}
+                  <button uk-icon="copy" />
+                </li>
               ))}
             </ul>
           </div>

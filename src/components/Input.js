@@ -36,7 +36,7 @@ export default ({
           checked={checked}
           onChange={onChange}
         />
-        match by colleges
+        {labelText}
       </label>
     </div>
   );

@@ -165,7 +165,7 @@ class Options extends PureComponent {
               onChange={this.handleChange}
             />
             <Input
-              labelText="random match all unmatched"
+              labelText="randomly match all unmatched"
               name="randomMatch"
               checked={randomMatch}
               onChange={this.handleChange}
