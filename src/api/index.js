@@ -32,14 +32,16 @@ async function updateSigninStatus(isSignedIn) {
 /**
  *  Sign in the user upon button click.
  */
-function handleAuthClick(event) {
-  gapi.auth2.getAuthInstance().signIn();
+async function handleAuthClick(event) {
+  await gapi.auth2.getAuthInstance().signIn();
+  window.location.reload(true);
 }
 /**
  *  Sign out the user upon button click.
  */
-function handleSignoutClick(event) {
-  gapi.auth2.getAuthInstance().signOut();
+async function handleSignoutClick(event) {
+  await gapi.auth2.getAuthInstance().signOut();
+  window.location.reload(true);
 }
 
 async function selectMentee(user) {

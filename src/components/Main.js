@@ -10,7 +10,7 @@ const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
       </div>
       <div>
         <button type="submit" className="uk-button uk-button-danger">
-          match
+          <span uk-icon="cog" className="uk-margin-small-right" /> match
         </button>
       </div>
     </div>
