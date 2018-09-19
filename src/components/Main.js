@@ -62,23 +62,26 @@ const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
           </div>
         </div>
       ))}
-    <div>
-      <div
-        className="uk-child-width-1-2@s uk-grid-small uk-card uk-card-default uk-card-small uk-card-body"
-        uk-grid=""
-      >
-        <ul className="uk-list uk-list-divider">
-          {unmatchedMentors.map((mentor, idx) => (
-            <li key={idx}>{mentor}</li>
-          ))}
-        </ul>
-        <ul className="uk-list uk-list-divider">
-          {unmatchedMentees.map((mentee, idx) => (
-            <li key={idx}>{mentee}</li>
-          ))}
-        </ul>
-      </div>
-    </div>
+    {unmatchedMentees.length > 0 ||
+      (unmatchedMentors.length > 0 && (
+        <div>
+          <div
+            className="uk-child-width-1-2@s uk-grid-small uk-card uk-card-default uk-card-small uk-card-body"
+            uk-grid=""
+          >
+            <ul className="uk-list uk-list-divider">
+              {unmatchedMentors.map((mentor, idx) => (
+                <li key={idx}>{mentor}</li>
+              ))}
+            </ul>
+            <ul className="uk-list uk-list-divider">
+              {unmatchedMentees.map((mentee, idx) => (
+                <li key={idx}>{mentee}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ))}
   </div>
 );
 

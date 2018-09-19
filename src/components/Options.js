@@ -33,15 +33,21 @@ class Options extends PureComponent {
     } = this.state;
     return (
       <Fragment>
-        <h2 className="uk-text-lead uk-text-uppercase uk-margin-small-bottom">
-          options
-        </h2>
-        <h4
-          className="uk-margin-remove-top uk-text-muted"
-          style={{ fontWeight: 300 }}
-        >
-          Be careful, what you modify here will affect the matching results.
-        </h4>
+        <div className="uk-grid-divider uk-flex-middle" uk-grid="">
+          <div>
+            <h2 className="uk-text-lead uk-text-uppercase uk-margin-remove">
+              options
+            </h2>
+          </div>
+          <div>
+            <h4
+              className="uk-margin-remove uk-text-muted"
+              style={{ fontWeight: 300 }}
+            >
+              Be careful, what you modify here will affect the matching results.
+            </h4>
+          </div>
+        </div>
         <hr />
         <form
           className="uk-text-left uk-form-horizontal"
@@ -55,7 +61,7 @@ class Options extends PureComponent {
                 </legend>
                 <div className="uk-margin">
                   <label className="uk-form-label" htmlFor="form-stacked-text">
-                    spreadsheet id
+                    spreadsheet ID
                   </label>
                   <div className="uk-form-controls">
                     <input
@@ -142,7 +148,7 @@ class Options extends PureComponent {
                 </legend>
                 <div className="uk-margin">
                   <label className="uk-form-label" htmlFor="form-stacked-text">
-                    spreadsheet id
+                    spreadsheet ID
                   </label>
                   <div className="uk-form-controls">
                     <input
