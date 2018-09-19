@@ -1,10 +1,10 @@
-function pair(matchesRaw, idx, mentee, reason) {
-  matchesRaw[idx].mentees.push(mentee);
-  matchesRaw[idx].reasons.push(reason);
+function pair(matchesRaw, matchIdx, mentee, reason) {
+  matchesRaw[matchIdx].mentees.push(mentee);
+  matchesRaw[matchIdx].reasons.push(reason);
 }
 
-const isMentorFullyPaired = mentor => {
-  return mentor.maxMenteesSize === mentor.mentees.length;
+const isMentorFullyPaired = ({ mentees, maxMenteesSize }) => {
+  return maxMenteesSize === mentees.length;
 };
 
 const majorAndCollegeMatch = (mentee, mentors) =>
@@ -52,17 +52,19 @@ function filterUnmatched(matchesRaw) {
   };
 }
 
+/** First come first served matching algorithm. */
+
 function match({ mentors, mentees }) {
   let mentorIdx = 0;
   let menteeIdx = 0;
   let mentee;
   let reason;
   let ok = 1;
-  let idx = 0;
+  let matchIdx;
   // let mentors = mentors.slice(0); // copy preventing changes to original
   const unmatchedMentees = [];
   const matchesRaw = setup(mentors);
-  while (mentors.length > 0) {
+  while (mentors.length > 0 && menteeIdx < mentees.length) {
     mentee = mentees[menteeIdx];
     if ((mentorIdx = majorAndCollegeMatch(mentee, mentors)) > -1) {
       reason = 'college & major';
@@ -75,15 +77,15 @@ function match({ mentors, mentees }) {
       ok = 0;
     }
     if (ok) {
-      pair(matchesRaw, idx, mentee, reason);
-      if (isMentorFullyPaired(matchesRaw[idx])) {
+      matchIdx = matchesRaw.findIndex(
+        match => match.mentor.id === mentors[mentorIdx].id
+      );
+      pair(matchesRaw, matchIdx, mentee, reason);
+      if (isMentorFullyPaired(matchesRaw[matchIdx])) {
         mentors.splice(mentorIdx, 1);
       }
     }
-    if (++menteeIdx > mentees.length - 1) {
-      break;
-    }
-    idx += 1;
+    menteeIdx += 1;
     ok = 1;
   }
   const { matches, unmatchedMentors } = filterUnmatched(matchesRaw);
