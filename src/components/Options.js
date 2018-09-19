@@ -15,7 +15,7 @@ class Options extends PureComponent {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.handleChangeOptions(this.props.options);
+    this.props.handleChangeOptions(...this.state);
   };
 
   render() {
@@ -166,11 +166,13 @@ class Options extends PureComponent {
           </Fieldset>
           <div className="uk-grid-small" uk-grid="">
             <div className="uk-width-1-2@s">
-              <input
-                className="uk-button uk-button-danger"
+              <button
                 type="submit"
-                value="Save & Match"
-              />
+                className="uk-button uk-button-danger"
+                onClick={this.handleSubmit}
+              >
+                <span uk-icon="check" className="uk-margin-small-right" /> Save
+              </button>
             </div>
           </div>
         </form>

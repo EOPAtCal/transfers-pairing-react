@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import Options from './Options';
 import Main from './Main';
 
@@ -10,7 +10,7 @@ const Page = ({
   unmatchedMentors,
   unmatchedMentees
 }) => (
-  <Fragment>
+  <div uk-grid="">
     <div className="uk-width-auto@m">
       <ul
         className="uk-tab-left"
@@ -42,7 +42,7 @@ const Page = ({
         </li>
       </ul>
     </div>
-  </Fragment>
+  </div>
 );
 
 export default Page;

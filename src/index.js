@@ -40,7 +40,6 @@ class App extends PureComponent {
   }
 
   loadScript() {
-    this.loadUIkit();
     const script = document.createElement('script');
     script.src = 'https://apis.google.com/js/api.js';
     script.async = true;
@@ -50,6 +49,7 @@ class App extends PureComponent {
   }
 
   async componentDidMount() {
+    this.loadUIkit();
     this.loadScript().onload = async () => {
       const {
         matches,
@@ -69,13 +69,13 @@ class App extends PureComponent {
       matches = [],
       unmatchedMentees = [],
       unmatchedMentors = [],
-      options
+      options = {}
     } = this.state;
     return (
       <Page
         handleMatch={this.handleMatch}
-        matches={matches}
         options={options}
+        matches={matches}
         unmatchedMentors={unmatchedMentors}
         unmatchedMentees={unmatchedMentees}
         handleChangeOptions={this.handleChangeOptions}

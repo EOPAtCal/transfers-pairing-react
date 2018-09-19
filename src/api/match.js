@@ -9,7 +9,7 @@ function selectPairs(matches) {
     results.push({
       mentor: mentorId,
       mentees: matches[mentorId].mentees.map(m => m.id),
-      reason: matches[mentorId].reasons
+      reasons: matches[mentorId].reasons
     });
   }
   return results;
