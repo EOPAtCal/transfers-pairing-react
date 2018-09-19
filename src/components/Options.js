@@ -33,7 +33,7 @@ class Options extends PureComponent {
     } = this.state;
     return (
       <Fragment>
-        <div className="uk-grid-divider uk-flex-middle" uk-grid="">
+        <div className="uk-flex-middle" uk-grid="">
           <div>
             <h2 className="uk-text-lead uk-text-uppercase uk-margin-remove">
               options

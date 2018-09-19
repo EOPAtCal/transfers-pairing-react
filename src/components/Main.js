@@ -2,9 +2,18 @@ import React from 'react';
 
 const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
   <div>
-    <h2 className="uk-text-lead uk-text-uppercase uk-margin-small-bottom">
-      results
-    </h2>
+    <div className="uk-flex-middle uk-flex-between" uk-grid="">
+      <div>
+        <h2 className="uk-text-lead uk-text-uppercase uk-margin-remove">
+          results
+        </h2>
+      </div>
+      <div>
+        <button type="submit" className="uk-button uk-button-danger">
+          match
+        </button>
+      </div>
+    </div>
     <hr />
     {matches.length > 0 && (
       <div
