@@ -10,23 +10,23 @@ class Options extends PureComponent {
     mentorRange: this.props.options.mentorRange,
     menteeSpreadsheetId: this.props.options.menteeSpreadsheetId,
     menteeRange: this.props.options.menteeRange,
-    mentorDataPositions: {
-      mentorEmail: {
+    mentorDataPositions: [
+      {
         labelText: 'email',
         name: 'mentorEmail',
         type: 'number',
         required: true,
         value: this.props.options.mentorEmail
       },
-      mentorCollege: {
+      {
         labelText: 'college',
         name: 'mentorCollege',
         type: 'number',
         required: false,
         value: this.props.options.mentorCollege,
-        matchBy: this.props.options.matchByMajors
+        matchBy: this.props.options.matchByColleges
       },
-      mentorMajor: {
+      {
         labelText: 'major',
         name: 'mentorMajor',
         type: 'number',
@@ -34,24 +34,24 @@ class Options extends PureComponent {
         value: this.props.options.mentorMajor,
         matchBy: this.props.options.matchByMajors
       }
-    },
-    menteeDataPositions: {
-      menteeEmail: {
+    ],
+    menteeDataPositions: [
+      {
         labelText: 'email',
         name: 'menteeEmail',
         type: 'number',
         required: true,
         value: this.props.options.menteeEmail
       },
-      menteeCollege: {
+      {
         labelText: 'college',
         name: 'menteeCollege',
         type: 'number',
         required: false,
         value: this.props.options.menteeCollege,
-        matchBy: this.props.options.matchByMajors
+        matchBy: this.props.options.matchByColleges
       },
-      menteeMajor: {
+      {
         labelText: 'major',
         name: 'menteeMajor',
         type: 'number',
@@ -59,8 +59,10 @@ class Options extends PureComponent {
         value: this.props.options.menteeMajor,
         matchBy: this.props.options.matchByMajors
       }
-    },
-    randomMatch: this.props.options.randomMatch
+    ],
+    randomMatch: this.props.options.randomMatch,
+    matchByColleges: this.matchByColleges,
+    matchByMajors: this.options.matchByMajors
   };
 
   handleChange = event => {
@@ -76,7 +78,7 @@ class Options extends PureComponent {
     this.props.handleChangeOptions(...this.state);
   };
 
-  handleAdd = name => {};
+  handleAdd = (name, isMentor) => {};
 
   handleRemove = index => {};
 
@@ -86,7 +88,11 @@ class Options extends PureComponent {
       mentorRange,
       menteeSpreadsheetId,
       menteeRange,
-      randomMatch
+      mentorDataPositions,
+      menteeDataPositions,
+      randomMatch,
+      matchByColleges,
+      matchByMajors
     } = this.state;
     return (
       <Fragment>
@@ -134,6 +140,7 @@ class Options extends PureComponent {
                 {mentorDataPositions.map(
                   ({ labelText, name, type, required, value }, idx) => (
                     <Input
+                      key={idx}
                       labelText={labelText}
                       name={name}
                       type={type}
@@ -144,29 +151,6 @@ class Options extends PureComponent {
                     />
                   )
                 )}
-                {/* <Input
-                  labelText="email"
-                  name="mentorEmail"
-                  type="number"
-                  required
-                  value={mentorEmail}
-                  onChange={this.handleChange}
-                  handleRemove={this.handleRemove}
-                />
-                <Input
-                  labelText="college"
-                  name="mentorCollege"
-                  type="number"
-                  value={mentorCollege}
-                  onChange={this.handleChange}
-                />
-                <Input
-                  labelText="major"
-                  name="mentorMajor"
-                  type="number"
-                  value={mentorMajor}
-                  onChange={this.handleChange}
-                /> */}
                 <div className="uk-margin-large">
                   <button
                     className="uk-button uk-button-default"
@@ -202,28 +186,20 @@ class Options extends PureComponent {
                 />
               </Fieldset>
               <Fieldset label="mentee data position">
-                <Input
-                  labelText="email"
-                  name="menteeEmail"
-                  type="number"
-                  required
-                  value={menteeEmail}
-                  onChange={this.handleChange}
-                />
-                <Input
-                  labelText="college"
-                  name="menteeCollege"
-                  type="number"
-                  value={menteeCollege}
-                  onChange={this.handleChange}
-                />
-                <Input
-                  labelText="major"
-                  name="menteeMajor"
-                  type="number"
-                  value={menteeMajor}
-                  onChange={this.handleChange}
-                />
+                {menteeDataPositions.map(
+                  ({ labelText, name, type, required, value }, idx) => (
+                    <Input
+                      key={idx}
+                      labelText={labelText}
+                      name={name}
+                      type={type}
+                      required={required}
+                      value={value}
+                      onChange={this.handleChange}
+                      handleRemove={this.handleRemove}
+                    />
+                  )
+                )}
                 <div className="uk-margin-large">
                   <button
                     className="uk-button uk-button-default"
