@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import UIkit from 'uikit';
 import Icons from 'uikit/dist/js/uikit-icons';
 import '../node_modules/uikit/dist/css/uikit.min.css';
+import './index.css';
 import Page from './components/Page';
 import ErrorBoundary from './components/ErrorBoundary';
 import Loading from './components/Loading';
