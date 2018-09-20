@@ -20,6 +20,9 @@ const collegeMatch = (mentee, mentors) =>
 
 const getMentorLimit = ({ limit }) => (limit.charAt(0) === '2' ? 8 : 4);
 
+const getMatchIdx = (matchesRaw, mentor) =>
+  matchesRaw.findIndex(match => match.mentor.id === mentor.id);
+
 function setup(mentors) {
   const matchesRaw = [];
   mentors.forEach((mentor, idx) => {
@@ -77,9 +80,7 @@ function match({ mentors, mentees }) {
       ok = 0;
     }
     if (ok) {
-      matchIdx = matchesRaw.findIndex(
-        match => match.mentor.id === mentors[mentorIdx].id
-      );
+      matchIdx = getMatchIdx(matchesRaw, mentors[mentorIdx]);
       pair(matchesRaw, matchIdx, mentee, reason);
       if (isMentorFullyPaired(matchesRaw[matchIdx])) {
         mentors.splice(mentorIdx, 1);

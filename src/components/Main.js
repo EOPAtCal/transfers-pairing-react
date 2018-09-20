@@ -36,17 +36,17 @@ const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
     <div>
       {matches.map(({ mentor, mentees, reasons }) => (
         <div
-          key={mentor}
+          key={mentor.id}
           className="uk-child-width-1-3@s uk-grid-small uk-grid-match uk-card uk-card-default uk-card-small uk-card-body uk-card-hover"
           uk-grid=""
         >
           <ul className="uk-list">
-            <li>{mentor}</li>
+            <li>{mentor.id}</li>
           </ul>
           <ul className="uk-list uk-list-divider">
             {mentees.map((mentee, idx) => (
               <li key={idx}>
-                {mentee}
+                {mentee.id}
                 <button uk-icon="copy" />
               </li>
             ))}
@@ -81,7 +81,7 @@ const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
             <ul className="uk-list uk-list-divider">
               {unmatchedMentors.map((mentor, idx) => (
                 <li key={idx}>
-                  {mentor}
+                  {mentor.id}
                   <button uk-icon="copy" />
                 </li>
               ))}
@@ -89,7 +89,7 @@ const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
             <ul className="uk-list uk-list-divider">
               {unmatchedMentees.map((mentee, idx) => (
                 <li key={idx}>
-                  {mentee}
+                  {mentee.id}
                   <button uk-icon="copy" />
                 </li>
               ))}
