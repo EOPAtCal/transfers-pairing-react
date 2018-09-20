@@ -1,5 +1,21 @@
 import React from 'react';
 
+const getMentorLimit = limit => (limit.charAt(0) === '2' ? 8 : 4);
+
+function InfoCard({ name, email, college, major, limit }) {
+  return (
+    <div uk-dropdown="pos: bottom-center; delay-hide: 0; animation: uk-animation-slide-bottom-small; ">
+      <div className="uk-card uk-card-body uk-card-small">
+        {/* <div className="uk-card-badge uk-label">{getMentorLimit(limit)}</div> */}
+        <h3 className="uk-card-title">{name}</h3>
+        <p>{email}</p>
+        <p>{college}</p>
+        <p>{major}</p>
+      </div>
+    </div>
+  );
+}
+
 const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
   <div>
     <div className="uk-flex-middle uk-flex-between" uk-grid="">
@@ -41,14 +57,28 @@ const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
           uk-grid=""
         >
           <ul className="uk-list">
-            <li>{mentor.id}</li>
+            <div className="uk-inline">
+              <li>{mentor.id}</li>
+              <InfoCard
+                email={mentor.email}
+                college={mentor.college}
+                major={mentor.major}
+              />
+            </div>
           </ul>
           <ul className="uk-list uk-list-divider">
             {mentees.map((mentee, idx) => (
-              <li key={idx}>
-                {mentee.id}
-                <button uk-icon="copy" />
-              </li>
+              <div className="uk-inline" key={idx}>
+                <li>
+                  {mentee.id}
+                  <button uk-icon="copy" />
+                </li>
+                <InfoCard
+                  email={mentee.email}
+                  college={mentee.college}
+                  major={mentee.major}
+                />
+              </div>
             ))}
           </ul>
           <ul className="uk-list uk-list-divider">
