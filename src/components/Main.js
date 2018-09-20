@@ -4,6 +4,7 @@ const getMentorLimit = limit => (limit.charAt(0) === '2' ? 8 : 4);
 
 function InfoCard({ name, email, college, major, limit }) {
   return (
+    <div className="uk-inline">
     <div uk-dropdown="pos: bottom-left; delay-hide: 0; animation: uk-animation-slide-bottom-small; ">
       <div className="uk-card uk-card-body uk-card-small">
         <h3 className="uk-card-title">{name}</h3>
@@ -12,6 +13,7 @@ function InfoCard({ name, email, college, major, limit }) {
         <p>{major}</p>
         {limit && <div className="uk-label">{getMentorLimit(limit)}</div>}
       </div>
+    </div>
     </div>
   );
 }
@@ -56,7 +58,6 @@ const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
         uk-grid=""
       >
         <ul className="uk-list">
-          <div className="uk-inline">
             <li>{mentor.id}</li>
             <InfoCard
               email={mentor.email}
