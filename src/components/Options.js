@@ -5,6 +5,64 @@ import Fieldset from './Fieldset';
 class Options extends PureComponent {
   state = { ...this.props.options };
 
+  state = {
+    mentorSpreadsheetId: this.props.options.mentorSpreadsheetId,
+    mentorRange: this.props.options.mentorRange,
+    menteeSpreadsheetId: this.props.options.menteeSpreadsheetId,
+    menteeRange: this.props.options.menteeRange,
+    mentorDataPositions: {
+      mentorEmail: {
+        labelText: 'email',
+        name: 'mentorEmail',
+        type: 'number',
+        required: true,
+        value: this.props.options.mentorEmail
+      },
+      mentorCollege: {
+        labelText: 'college',
+        name: 'mentorCollege',
+        type: 'number',
+        required: false,
+        value: this.props.options.mentorCollege,
+        matchBy: this.props.options.matchByMajors
+      },
+      mentorMajor: {
+        labelText: 'major',
+        name: 'mentorMajor',
+        type: 'number',
+        required: false,
+        value: this.props.options.mentorMajor,
+        matchBy: this.props.options.matchByMajors
+      }
+    },
+    menteeDataPositions: {
+      menteeEmail: {
+        labelText: 'email',
+        name: 'menteeEmail',
+        type: 'number',
+        required: true,
+        value: this.props.options.menteeEmail
+      },
+      menteeCollege: {
+        labelText: 'college',
+        name: 'menteeCollege',
+        type: 'number',
+        required: false,
+        value: this.props.options.menteeCollege,
+        matchBy: this.props.options.matchByMajors
+      },
+      menteeMajor: {
+        labelText: 'major',
+        name: 'menteeMajor',
+        type: 'number',
+        required: false,
+        value: this.props.options.menteeMajor,
+        matchBy: this.props.options.matchByMajors
+      }
+    },
+    randomMatch: this.props.options.randomMatch
+  };
+
   handleChange = event => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -18,20 +76,16 @@ class Options extends PureComponent {
     this.props.handleChangeOptions(...this.state);
   };
 
+  handleAdd = name => {};
+
+  handleRemove = index => {};
+
   render() {
     const {
       mentorSpreadsheetId,
       mentorRange,
-      mentorEmail,
-      mentorCollege,
-      mentorMajor,
-      matchByMajors,
-      matchByColleges,
       menteeSpreadsheetId,
       menteeRange,
-      menteeEmail,
-      menteeCollege,
-      menteeMajor,
       randomMatch
     } = this.state;
     return (
@@ -77,19 +131,32 @@ class Options extends PureComponent {
                 />
               </Fieldset>
               <Fieldset label="mentor data position">
-                <Input
+                {mentorDataPositions.map(
+                  ({ labelText, name, type, required, value }, idx) => (
+                    <Input
+                      labelText={labelText}
+                      name={name}
+                      type={type}
+                      required={required}
+                      value={value}
+                      onChange={this.handleChange}
+                      handleRemove={this.handleRemove}
+                    />
+                  )
+                )}
+                {/* <Input
                   labelText="email"
                   name="mentorEmail"
                   type="number"
                   required
                   value={mentorEmail}
                   onChange={this.handleChange}
+                  handleRemove={this.handleRemove}
                 />
                 <Input
                   labelText="college"
                   name="mentorCollege"
                   type="number"
-                  required
                   value={mentorCollege}
                   onChange={this.handleChange}
                 />
@@ -97,10 +164,21 @@ class Options extends PureComponent {
                   labelText="major"
                   name="mentorMajor"
                   type="number"
-                  required
                   value={mentorMajor}
                   onChange={this.handleChange}
-                />
+                /> */}
+                <div className="uk-margin-large">
+                  <button
+                    className="uk-button uk-button-default"
+                    onClick={this.handleAdd()}
+                  >
+                    <span
+                      uk-icon="icon: plus"
+                      className="uk-margin-small-right"
+                    />
+                    add
+                  </button>
+                </div>
               </Fieldset>
             </div>
             <div className="uk-width-1-2@s">
@@ -136,7 +214,6 @@ class Options extends PureComponent {
                   labelText="college"
                   name="menteeCollege"
                   type="number"
-                  required
                   value={menteeCollege}
                   onChange={this.handleChange}
                 />
@@ -144,10 +221,21 @@ class Options extends PureComponent {
                   labelText="major"
                   name="menteeMajor"
                   type="number"
-                  required
                   value={menteeMajor}
                   onChange={this.handleChange}
                 />
+                <div className="uk-margin-large">
+                  <button
+                    className="uk-button uk-button-default"
+                    onClick={this.handleAdd()}
+                  >
+                    <span
+                      uk-icon="icon: plus"
+                      className="uk-margin-small-right"
+                    />
+                    add
+                  </button>
+                </div>
               </Fieldset>
             </div>
           </div>

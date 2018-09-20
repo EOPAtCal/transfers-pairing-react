@@ -4,13 +4,12 @@
   "mentorEmail": 3,
   "mentorCollege": 4,
   "mentorMajor": 19,
-  "mentorLimit": 20,
-  "matchByMajors": true,
-  "matchByColleges": false,
   "menteeSpreadsheetId": "1hRQ5v0pao0zh_LSH3zY9LgsSooDyaVjTaxO7cMOR56g",
   "menteeRange": "A2:AC351",
   "menteeEmail": 8,
   "menteeCollege": 9,
   "menteeMajor": 28,
-  "randomMatch": true
+  "randomMatch": true,
+  "matchByMajors": true,
+  "matchByColleges": false
 }
