@@ -4,13 +4,13 @@ const getMentorLimit = limit => (limit.charAt(0) === '2' ? 8 : 4);
 
 function InfoCard({ name, email, college, major, limit }) {
   return (
-    <div uk-dropdown="pos: bottom-center; delay-hide: 0; animation: uk-animation-slide-bottom-small; ">
+    <div uk-dropdown="pos: bottom-left; delay-hide: 0; animation: uk-animation-slide-bottom-small; ">
       <div className="uk-card uk-card-body uk-card-small">
-        {/* <div className="uk-card-badge uk-label">{getMentorLimit(limit)}</div> */}
         <h3 className="uk-card-title">{name}</h3>
         <p>{email}</p>
         <p>{college}</p>
         <p>{major}</p>
+        {limit && <div className="uk-label">{getMentorLimit(limit)}</div>}
       </div>
     </div>
   );
@@ -57,29 +57,26 @@ const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
           uk-grid=""
         >
           <ul className="uk-list">
-            <div className="uk-inline">
-              <li>{mentor.id}</li>
-              <InfoCard
-                email={mentor.email}
-                college={mentor.college}
-                major={mentor.major}
-              />
-            </div>
+            <li>{mentor.id}</li>
+            <InfoCard
+              email={mentor.email}
+              college={mentor.college}
+              major={mentor.major}
+              limit={mentor.limit}
+            />
           </ul>
           <ul className="uk-list uk-list-divider">
-            {mentees.map((mentee, idx) => (
-              <div className="uk-inline" key={idx}>
-                <li>
-                  {mentee.id}
-                  <button uk-icon="copy" />
-                </li>
-                <InfoCard
-                  email={mentee.email}
-                  college={mentee.college}
-                  major={mentee.major}
-                />
-              </div>
-            ))}
+            {mentees.map((mentee, idx) => [
+              <li style={{ overflow: 'hidden' }}>
+                {mentee.id}
+                <button uk-icon="copy" />
+              </li>,
+              <InfoCard
+                email={mentee.email}
+                college={mentee.college}
+                major={mentee.major}
+              />
+            ])}
           </ul>
           <ul className="uk-list uk-list-divider">
             {reasons.map((reason, idx) => (
@@ -109,20 +106,30 @@ const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
             uk-grid=""
           >
             <ul className="uk-list uk-list-divider">
-              {unmatchedMentors.map((mentor, idx) => (
+              {unmatchedMentors.map((mentor, idx) => [
                 <li key={idx}>
                   {mentor.id}
                   <button uk-icon="copy" />
-                </li>
-              ))}
+                </li>,
+                <InfoCard
+                  email={mentor.email}
+                  college={mentor.college}
+                  major={mentor.major}
+                />
+              ])}
             </ul>
             <ul className="uk-list uk-list-divider">
-              {unmatchedMentees.map((mentee, idx) => (
+              {unmatchedMentees.map((mentee, idx) => [
                 <li key={idx}>
                   {mentee.id}
                   <button uk-icon="copy" />
-                </li>
-              ))}
+                </li>,
+                <InfoCard
+                  email={mentee.email}
+                  college={mentee.college}
+                  major={mentee.major}
+                />
+              ])}
             </ul>
           </div>
         </div>
