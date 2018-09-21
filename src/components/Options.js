@@ -55,9 +55,9 @@ class Options extends PureComponent {
 
   handleSubmit = e => {
     e.preventDefault();
-    const options = JSON.parse(JSON.stringify(...this.state));
+    const options = JSON.parse(JSON.stringify(this.state));
     options.userOptions.forEach(obj => {
-      obj.keys().forEach(key => {
+      Object.keys(obj).forEach(key => {
         if (key !== 'name') {
           options[this.getName(key, obj.name)] = obj[key];
         }
