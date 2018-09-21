@@ -60,9 +60,7 @@ class Options extends PureComponent {
         matchBy: this.props.options.matchByMajors
       }
     ],
-    randomMatch: this.props.options.randomMatch,
-    matchByColleges: this.matchByColleges,
-    matchByMajors: this.options.matchByMajors
+    randomMatch: this.props.options.randomMatch
   };
 
   handleChange = event => {
@@ -90,9 +88,7 @@ class Options extends PureComponent {
       menteeRange,
       mentorDataPositions,
       menteeDataPositions,
-      randomMatch,
-      matchByColleges,
-      matchByMajors
+      randomMatch
     } = this.state;
     return (
       <Fragment>
@@ -175,7 +171,6 @@ class Options extends PureComponent {
                   value={menteeSpreadsheetId}
                   onChange={this.handleChange}
                 />
-
                 <Input
                   labelText="spreadsheet range"
                   name="menteeRange"
@@ -216,18 +211,20 @@ class Options extends PureComponent {
             </div>
           </div>
           <Fieldset label="match criteria">
-            <Input
-              labelText="match by majors"
-              name="matchByMajors"
-              checked={matchByMajors}
-              onChange={this.handleChange}
-            />
-            <Input
-              labelText="match by colleges"
-              name="matchByColleges"
-              checked={matchByColleges}
-              onChange={this.handleChange}
-            />
+            {menteeDataPositions
+              .concat(mentorDataPositions)
+              .map(
+                (details, idx) =>
+                  details.matchBy && (
+                    <Input
+                      key={idx}
+                      labelText={`match by ${details.name}s`}
+                      name={details.name}
+                      checked={details.matchByMajors}
+                      onChange={this.handleChange}
+                    />
+                  )
+              )}
             <Input
               labelText="randomly match all unmatched"
               name="randomMatch"
