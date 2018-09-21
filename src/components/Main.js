@@ -71,7 +71,7 @@ const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
             {mentees.map((mentee, idx) => [
               <li key={idx}>
                 {mentee.id}
-                <button uk-icon="copy" />
+                <button type="button" uk-icon="copy" />
               </li>,
               <InfoCard
                 key={mentee.email}
@@ -112,7 +112,7 @@ const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
             {unmatchedMentors.map((mentor, idx) => [
               <li key={idx}>
                 {mentor.id}
-                <button uk-icon="copy" />
+                <button type="button" uk-icon="copy" />
               </li>,
               <InfoCard
                 key={mentor.email}
@@ -127,7 +127,7 @@ const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
             {unmatchedMentees.map((mentee, idx) => [
               <li key={idx}>
                 {mentee.id}
-                <button uk-icon="copy" />
+                <button type="button" uk-icon="copy" />
               </li>,
               <InfoCard
                 key={mentee.email}

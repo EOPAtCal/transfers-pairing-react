@@ -47,6 +47,7 @@ const InputTextUserOptions = ({
     </div>
     <div>
       <button
+        type="button"
         className="uk-icon-button"
         uk-icon="minus"
         onClick={handleRemove}
