@@ -19,7 +19,7 @@ const InputText = ({ label, value, handleChange }) => (
   </div>
 );
 
-const InputTextUserOptions = ({ label, handleChange, handleRemove }) => (
+const InputTextUserOptions = ({ label, handleChange, value, handleRemove }) => (
   <div className="uk-grid uk-flex-middle">
     <div className="uk-margin">
       <input
@@ -29,13 +29,23 @@ const InputTextUserOptions = ({ label, handleChange, handleRemove }) => (
         onChange={handleChange}
       />
 
-      <div>
-        <button
-          className="uk-icon-button"
-          uk-icon="minus"
-          onClick={handleRemove}
+      <div className="uk-form-controls">
+        <input
+          className="uk-input uk-form-width-small"
+          type="text"
+          required
+          value={value}
+          onChange={handleChange}
         />
       </div>
+    </div>
+
+    <div>
+      <button
+        className="uk-icon-button"
+        uk-icon="minus"
+        onClick={handleRemove}
+      />
     </div>
   </div>
 );

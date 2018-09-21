@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import { InputText, InputCheckbox } from './Input';
+import { InputText, InputTextUserOptions, InputCheckbox } from './Input';
 import Fieldset from './Fieldset';
 
 class Options extends PureComponent {
@@ -113,7 +113,7 @@ class Options extends PureComponent {
               className="uk-margin-remove uk-text-muted"
               style={{ fontWeight: 300 }}
             >
-              Be careful, what you modify here will affect the matching results.
+              Be careful, what you change here will affect the matching results.
             </h4>
           </div>
         </div>
@@ -152,7 +152,7 @@ class Options extends PureComponent {
                   handleChange={this.handleChange}
                 />
                 {userOptions.map(({ name, mentor }, idx) => (
-                  <InputText
+                  <InputTextUserOptions
                     key={idx}
                     label={name}
                     type="number"
@@ -208,7 +208,7 @@ class Options extends PureComponent {
                   handleRemove={this.handleRemove}
                 />
                 {userOptions.map(({ name, mentee }, idx) => (
-                  <InputText
+                  <InputTextUserOptions
                     key={idx}
                     label={name}
                     type="number"
