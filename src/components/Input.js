@@ -1,41 +1,50 @@
 import React from 'react';
 
-const InputText = ({ labelText, name, isRequired, value, onChange }) => (
+const InputText = ({ label, required, value, handleChange, handleRemove }) => (
   <div className="uk-grid uk-flex-middle">
     <div className="uk-margin">
-      <label className="uk-form-label" htmlFor="form-stacked-text">
-        {labelText}
-      </label>
+      {!required ? (
+        <input
+          className="uk-input uk-form-blank uk-form-width-small"
+          type="text"
+          value={label}
+          onChange={handleChange}
+        />
+      ) : (
+        <label className="uk-form-label" htmlFor="form-stacked-text">
+          {label}
+        </label>
+      )}
       <div className="uk-form-controls">
         <input
-          name={name}
           className="uk-input uk-form-width-small"
           type="text"
-          required={isRequired}
+          required={required}
           value={value}
-          onChange={onChange}
+          onChange={handleChange}
+          onClick={handleRemove}
         />
       </div>
     </div>
-    <div>
-      <button class="uk-icon-button" uk-icon="minus" />
-    </div>
+    {!required && (
+      <div>
+        <button className="uk-icon-button" uk-icon="minus" />
+      </div>
+    )}
   </div>
 );
 
-const InputCheckbox = ({ labelText, name, isRequired, onChange, checked }) => {
+const InputCheckbox = ({ label, handleChange, checked }) => {
   return (
     <div className="uk-margin">
       <label>
         <input
-          name={name}
           className="uk-checkbox uk-margin-small-right"
           type="checkbox"
-          required={isRequired}
           checked={checked}
-          onChange={onChange}
+          onChange={handleChange}
         />
-        {labelText}
+        {label}
       </label>
     </div>
   );

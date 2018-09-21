@@ -10,74 +10,82 @@ class Options extends PureComponent {
     menteeRange: this.props.options.menteeRange,
     menteeEmail: this.props.options.menteeEmail,
     mentorEmail: this.props.options.mentorEmail,
-    mentorDataPositions: [
+    userOptions: [
       {
-        labelText: 'college',
-        name: 'mentorCollege',
-        value: this.props.options.mentorCollege
+        name: 'college',
+        mentor: this.props.options.mentorCollege,
+        mentee: this.props.options.menteeCollege,
+        matchBy: this.props.options.matchByCollege
       },
       {
-        labelText: 'major',
-        name: 'mentorMajor',
-        value: this.props.options.mentorMajor
+        name: 'major',
+        mentor: this.props.options.mentorMajor,
+        mentee: this.props.options.menteeMajor,
+        matchBy: this.props.options.matchByMajor
       }
-    ],
-    menteeDataPositions: [
-      {
-        labelText: 'college',
-        name: 'menteeCollege',
-        value: this.props.options.menteeCollege
-      },
-      {
-        labelText: 'major',
-        name: 'menteeMajor',
-        value: this.props.options.menteeMajor
-      }
-    ],
-    matchBy: [
-      this.props.options.matchByColleges,
-      this.props.options.matchByMajors
     ],
     randomMatch: this.props.options.randomMatch
   };
 
   handleChange = event => {
-    // const target = event.target;
-    // const value = target.type === 'checkbox' ? target.checked : target.value;
-    // this.setState({
-    //   [target.name]: value
-    // });
-  };
-
-  handleSubmit = e => {
-    e.preventDefault();
-    // this.props.handleChangeOptions(...this.state);
-  };
-
-  handleAdd = ({ labelText, value }, isMentor) => {
-    const arr = isMentor
-      ? this.state.mentorDataPositions
-      : this.state.menteeDataPositions;
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
     this.setState({
-      [isMentor ? 'mentorDataPositions' : 'menteeDataPositions']: [
-        ...arr,
-        {
-          labelText: labelText,
-          value: value,
-          name: isMentor ? 'mentor' : 'mentee' + labelText,
-          matchBy: false
-        }
-      ]
+      [target.name]: value
     });
   };
 
-  handleRemove = (index, isMentor) => {
-    const arr = isMentor
-      ? this.state.mentorDataPositions
-      : this.state.menteeDataPositions;
-    arr.filter((_, idx) => idx !== index);
+  handleChangeUserOptions = (idx, { name, mentor, mentee }) => () => {
+    const elem = this.state.userOptions[idx];
+    Object.assign(elem, { name, mentor, mentee });
     this.setState({
-      [isMentor ? 'mentorDataPositions' : 'menteeDataPositions']: arr
+      userOptions: [...this.state.userOptions]
+    });
+  };
+
+  handleChangeMatchBy = (idx, bool) => {
+    const elem = this.state.userOptions[idx];
+    elem.matchBy = bool;
+    this.setState({
+      userOptions: [...this.state.userOptions]
+    });
+  };
+
+  getName = (key, name) => key + name.charAt(0).toUpperCase() + name.slice(1);
+
+  handleSubmit = e => {
+    e.preventDefault();
+    const options = JSON.parse(JSON.stringify(this.state.options));
+    options.userOptions.forEach(obj => {
+      obj.keys().forEach(key => {
+        if (key !== 'name') {
+          options[this.getName(key, obj.name)] = obj[key];
+        }
+      });
+    });
+    delete options.userOptions;
+    this.props.handleChangeOptions(options);
+  };
+
+  handleAdd = () => {
+    const userOptions = this.state.userOptions;
+    userOptions.push({
+      name: '',
+      mentor: -1,
+      mentee: -1,
+      matchBy: false
+    });
+    this.setState({
+      userOptions: [...userOptions]
+    });
+  };
+
+  handleRemove = index => () => {
+    const userOptions = this.state.userOptions.filter(
+      (_, idx) => idx !== index
+    );
+    this.setState({
+      userOptions
     });
   };
 
@@ -89,8 +97,7 @@ class Options extends PureComponent {
       menteeRange,
       mentorEmail,
       menteeEmail,
-      mentorDataPositions,
-      menteeDataPositions,
+      userOptions,
       randomMatch
     } = this.state;
     return (
@@ -119,53 +126,54 @@ class Options extends PureComponent {
             <div className="uk-width-1-2@s">
               <Fieldset label="mentor spreadsheet">
                 <InputText
-                  labelText="spreadsheet ID"
+                  label="spreadsheet ID"
                   name="mentorSpreadsheetId"
                   type="text"
                   required
                   value={mentorSpreadsheetId}
-                  onChange={this.handleChange}
+                  handleChange={this.handleChange}
                 />
                 <InputText
-                  labelText="spreadsheet range"
+                  label="spreadsheet range"
                   name="mentorRange"
                   type="text"
                   required
                   value={mentorRange}
-                  onChange={this.handleChange}
+                  handleChange={this.handleChange}
                 />
               </Fieldset>
               <Fieldset label="mentor data position">
                 <InputText
-                  labelText="email"
+                  label="email"
                   name="mentorEmail"
                   type="number"
                   required
                   value={mentorEmail}
-                  onChange={this.handleChange}
-                  handleRemove={this.handleRemove}
+                  handleChange={this.handleChange}
                 />
-                {mentorDataPositions.map(({ labelText, name, value }, idx) => (
+                {userOptions.map(({ name, mentor }, idx) => (
                   <InputText
                     key={idx}
-                    labelText={labelText}
-                    name={name}
+                    label={name}
                     type="number"
-                    value={value}
-                    onChange={this.handleChange}
-                    handleRemove={this.handleRemove}
+                    value={mentor}
+                    handleChange={this.handleChangeUserOptions(idx, {
+                      name,
+                      mentor
+                    })}
+                    handleRemove={this.handleRemove(idx)}
                   />
                 ))}
                 <div className="uk-margin-large">
                   <button
                     className="uk-button uk-button-default"
-                    onClick={this.handleAdd()}
+                    onClick={this.handleAdd}
                   >
                     <span
                       uk-icon="icon: plus"
                       className="uk-margin-small-right"
                     />
-                    add
+                    new field
                   </button>
                 </div>
               </Fieldset>
@@ -173,75 +181,65 @@ class Options extends PureComponent {
             <div className="uk-width-1-2@s">
               <Fieldset label="mentee spreadsheet">
                 <InputText
-                  labelText="spreadsheet ID"
+                  label="spreadsheet ID"
                   name="menteeSpreadsheetId"
                   type="text"
                   required
                   value={menteeSpreadsheetId}
-                  onChange={this.handleChange}
+                  handleChange={this.handleChange}
                 />
                 <InputText
-                  labelText="spreadsheet range"
+                  label="spreadsheet range"
                   name="menteeRange"
                   type="text"
                   required
                   value={menteeRange}
-                  onChange={this.handleChange}
+                  handleChange={this.handleChange}
                 />
               </Fieldset>
               <Fieldset label="mentee data position">
                 <InputText
-                  labelText="email"
+                  label="email"
                   name="menteeEmail"
                   type="number"
                   required
                   value={menteeEmail}
-                  onChange={this.handleChange}
+                  handleChange={this.handleChange}
                   handleRemove={this.handleRemove}
                 />
-                {menteeDataPositions.map(({ labelText, name, value }, idx) => (
+                {userOptions.map(({ name, mentee }, idx) => (
                   <InputText
                     key={idx}
-                    labelText={labelText}
-                    name={name}
+                    label={name}
                     type="number"
-                    value={value}
-                    onChange={this.handleChange}
-                    handleRemove={this.handleRemove}
+                    value={mentee}
+                    handleChange={this.handleChangeUserOptions(idx, {
+                      name,
+                      mentee
+                    })}
+                    handleRemove={this.handleRemove(idx)}
                   />
                 ))}
-                <div className="uk-margin-large">
-                  <button
-                    className="uk-button uk-button-default"
-                    onClick={this.handleAdd()}
-                  >
-                    <span
-                      uk-icon="icon: plus"
-                      className="uk-margin-small-right"
-                    />
-                    add
-                  </button>
-                </div>
               </Fieldset>
             </div>
           </div>
           <Fieldset label="match criteria">
-            {/* {menteeDataPositions
-              .concat(mentorDataPositions)
-              .map((details, idx) => (
-                <InputCheckbox
-                  key={idx}
-                  labelText={`match by ${details.name}s`}
-                  name={details.name}
-                  checked={details.matchByMajors}
-                  onChange={this.handleChange}
-                />
-              ))} */}
+            {userOptions.map(({ name, matchBy }, idx) => (
+              <InputCheckbox
+                key={idx}
+                label={`match by ${name}`}
+                checked={matchBy}
+                handleChange={this.handleChangeUserOptions(idx, {
+                  name,
+                  matchBy
+                })}
+              />
+            ))}
             <InputCheckbox
-              labelText="randomly match all unmatched"
+              label="randomly match all unmatched"
               name="randomMatch"
               checked={randomMatch}
-              onChange={this.handleChange}
+              handleChange={this.handleChange}
             />
           </Fieldset>
           <div className="uk-grid-small" uk-grid="">
