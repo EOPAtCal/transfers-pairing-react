@@ -14,55 +14,72 @@ class Options extends PureComponent {
       {
         labelText: 'college',
         name: 'mentorCollege',
-        value: this.props.options.mentorCollege,
-        matchBy: this.props.options.matchByColleges
+        value: this.props.options.mentorCollege
       },
       {
         labelText: 'major',
         name: 'mentorMajor',
-        value: this.props.options.mentorMajor,
-        matchBy: this.props.options.matchByMajors
+        value: this.props.options.mentorMajor
       }
     ],
     menteeDataPositions: [
       {
         labelText: 'college',
         name: 'menteeCollege',
-        value: this.props.options.menteeCollege,
-        matchBy: this.props.options.matchByColleges
+        value: this.props.options.menteeCollege
       },
       {
         labelText: 'major',
         name: 'menteeMajor',
-        value: this.props.options.menteeMajor,
-        matchBy: this.props.options.matchByMajors
+        value: this.props.options.menteeMajor
       }
+    ],
+    matchBy: [
+      this.props.options.matchByColleges,
+      this.props.options.matchByMajors
     ],
     randomMatch: this.props.options.randomMatch
   };
 
   handleChange = event => {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    this.setState({
-      [target.name]: value
-    });
+    // const target = event.target;
+    // const value = target.type === 'checkbox' ? target.checked : target.value;
+    // this.setState({
+    //   [target.name]: value
+    // });
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.handleChangeOptions(...this.state);
+    // this.props.handleChangeOptions(...this.state);
   };
 
-  handleAdd = ({ name }, isMentor) => {
+  handleAdd = ({ labelText, value }, isMentor) => {
     const arr = isMentor
       ? this.state.mentorDataPositions
       : this.state.menteeDataPositions;
-
-    this.setState({});
+    this.setState({
+      [isMentor ? 'mentorDataPositions' : 'menteeDataPositions']: [
+        ...arr,
+        {
+          labelText: labelText,
+          value: value,
+          name: isMentor ? 'mentor' : 'mentee' + labelText,
+          matchBy: false
+        }
+      ]
+    });
   };
 
-  handleRemove = index => {};
+  handleRemove = (index, isMentor) => {
+    const arr = isMentor
+      ? this.state.mentorDataPositions
+      : this.state.menteeDataPositions;
+    arr.filter((_, idx) => idx !== index);
+    this.setState({
+      [isMentor ? 'mentorDataPositions' : 'menteeDataPositions']: arr
+    });
+  };
 
   render() {
     const {
