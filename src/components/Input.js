@@ -1,6 +1,6 @@
 import React from 'react';
 
-const InputText = ({ label, value, handleChange }) => (
+const InputText = ({ label, value, handleChange, name, type }) => (
   <div className="uk-grid uk-flex-middle">
     <div className="uk-margin">
       <label className="uk-form-label" htmlFor="form-stacked-text">
@@ -9,9 +9,10 @@ const InputText = ({ label, value, handleChange }) => (
       <div className="uk-form-controls">
         <input
           className="uk-input uk-form-width-small"
-          type="text"
+          type={type}
           required
           value={value}
+          name={name}
           onChange={handleChange}
         />
       </div>
@@ -19,27 +20,31 @@ const InputText = ({ label, value, handleChange }) => (
   </div>
 );
 
-const InputTextUserOptions = ({ label, handleChange, value, handleRemove }) => (
+const InputTextUserOptions = ({
+  label,
+  handleChange,
+  value,
+  handleRemove,
+  isMentor
+}) => (
   <div className="uk-grid uk-flex-middle">
     <div className="uk-margin">
       <input
         className="uk-input uk-form-blank uk-form-width-small"
         type="text"
         value={label}
-        onChange={handleChange}
+        onChange={handleChange(2)}
+        required
       />
-
       <div className="uk-form-controls">
         <input
           className="uk-input uk-form-width-small"
-          type="text"
-          required
+          type="number"
           value={value}
-          onChange={handleChange}
+          onChange={handleChange(isMentor ? 0 : 1)}
         />
       </div>
     </div>
-
     <div>
       <button
         className="uk-icon-button"
@@ -50,11 +55,12 @@ const InputTextUserOptions = ({ label, handleChange, value, handleRemove }) => (
   </div>
 );
 
-const InputCheckbox = ({ label, handleChange, checked }) => {
+const InputCheckbox = ({ label, handleChange, checked, name }) => {
   return (
     <div className="uk-margin">
       <label>
         <input
+          name={name}
           className="uk-checkbox uk-margin-small-right"
           type="checkbox"
           checked={checked}

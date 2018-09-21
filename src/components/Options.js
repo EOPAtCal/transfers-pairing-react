@@ -35,17 +35,18 @@ class Options extends PureComponent {
     });
   };
 
-  handleChangeUserOptions = (idx, { name, mentor, mentee }) => () => {
+  handleChangeUserOptions = idx => index => event => {
     const elem = this.state.userOptions[idx];
-    Object.assign(elem, { name, mentor, mentee });
+    const attributes = ['mentor', 'mentee', 'name'];
+    Object.assign(elem, { [attributes[index]]: event.target.value });
     this.setState({
       userOptions: [...this.state.userOptions]
     });
   };
 
-  handleChangeMatchBy = (idx, bool) => {
+  handleChangeMatchBy = idx => e => {
     const elem = this.state.userOptions[idx];
-    elem.matchBy = bool;
+    elem.matchBy = e.target.checked;
     this.setState({
       userOptions: [...this.state.userOptions]
     });
@@ -129,7 +130,6 @@ class Options extends PureComponent {
                   label="spreadsheet ID"
                   name="mentorSpreadsheetId"
                   type="text"
-                  required
                   value={mentorSpreadsheetId}
                   handleChange={this.handleChange}
                 />
@@ -137,7 +137,6 @@ class Options extends PureComponent {
                   label="spreadsheet range"
                   name="mentorRange"
                   type="text"
-                  required
                   value={mentorRange}
                   handleChange={this.handleChange}
                 />
@@ -147,7 +146,6 @@ class Options extends PureComponent {
                   label="email"
                   name="mentorEmail"
                   type="number"
-                  required
                   value={mentorEmail}
                   handleChange={this.handleChange}
                 />
@@ -155,17 +153,15 @@ class Options extends PureComponent {
                   <InputTextUserOptions
                     key={idx}
                     label={name}
-                    type="number"
                     value={mentor}
-                    handleChange={this.handleChangeUserOptions(idx, {
-                      name,
-                      mentor
-                    })}
+                    isMentor={true}
+                    handleChange={this.handleChangeUserOptions(idx)}
                     handleRemove={this.handleRemove(idx)}
                   />
                 ))}
                 <div className="uk-margin-large">
                   <button
+                    type="button"
                     className="uk-button uk-button-default"
                     onClick={this.handleAdd}
                   >
@@ -202,21 +198,16 @@ class Options extends PureComponent {
                   label="email"
                   name="menteeEmail"
                   type="number"
-                  required
                   value={menteeEmail}
                   handleChange={this.handleChange}
-                  handleRemove={this.handleRemove}
                 />
                 {userOptions.map(({ name, mentee }, idx) => (
                   <InputTextUserOptions
                     key={idx}
                     label={name}
-                    type="number"
                     value={mentee}
-                    handleChange={this.handleChangeUserOptions(idx, {
-                      name,
-                      mentee
-                    })}
+                    isMentor={false}
+                    handleChange={this.handleChangeUserOptions(idx)}
                     handleRemove={this.handleRemove(idx)}
                   />
                 ))}
@@ -229,10 +220,7 @@ class Options extends PureComponent {
                 key={idx}
                 label={`match by ${name}`}
                 checked={matchBy}
-                handleChange={this.handleChangeUserOptions(idx, {
-                  name,
-                  matchBy
-                })}
+                handleChange={this.handleChangeMatchBy(idx)}
               />
             ))}
             <InputCheckbox
