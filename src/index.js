@@ -8,7 +8,7 @@ import Page from './components/Page';
 import ErrorBoundary from './components/ErrorBoundary';
 import Loading from './components/Loading';
 import handleClientLoad from './api';
-import defaults from './defaults/defaults.json';
+import defaults from './defaults.json';
 
 class App extends PureComponent {
   state = {
@@ -22,7 +22,7 @@ class App extends PureComponent {
   notify() {
     UIkit.notification({
       message: 'Saved!',
-      status: 'default',
+      status: 'success',
       pos: 'top-right',
       timeout: 5000
     });
@@ -41,6 +41,7 @@ class App extends PureComponent {
     this.setState({
       isLoading: true
     });
+    console.log(this.state.options);
     const { matches, unmatchedMentees, unmatchedMentors } = await this.fetch();
     this.setState({
       matches,

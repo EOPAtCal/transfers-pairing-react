@@ -24,12 +24,16 @@ class Options extends PureComponent {
         matchBy: this.props.options.matchByMajor
       }
     ],
-    randomMatch: this.props.options.randomMatch
+    randomMatch: this.props.options.randomMatch,
+    index: 0
   };
 
   handleChange = event => {
     const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+    let value;
+    if (target.type === 'checkbox') value = target.checked;
+    else if (target.type === 'number') value = parseInt(target.value, 10);
+    else value = event.target.value;
     this.setState({
       [target.name]: value
     });
@@ -38,7 +42,9 @@ class Options extends PureComponent {
   handleChangeUserOptions = idx => index => event => {
     const elem = this.state.userOptions[idx];
     const attributes = ['mentor', 'mentee', 'name'];
-    Object.assign(elem, { [attributes[index]]: event.target.value });
+    Object.assign(elem, {
+      [attributes[index]]: parseInt(event.target.value, 10)
+    });
     this.setState({
       userOptions: [...this.state.userOptions]
     });
@@ -69,15 +75,16 @@ class Options extends PureComponent {
   };
 
   handleAdd = () => {
-    const userOptions = this.state.userOptions;
+    const { userOptions, index } = this.state;
     userOptions.push({
-      name: '',
+      name: 'label' + index,
       mentor: -1,
       mentee: -1,
       matchBy: false
     });
     this.setState({
-      userOptions: [...userOptions]
+      userOptions: [...userOptions],
+      index: index + 1
     });
   };
 

@@ -18,7 +18,8 @@ const majorMatch = (mentee, mentors) =>
 const collegeMatch = (mentee, mentors) =>
   mentors.findIndex(mentor => mentor.college === mentee.college);
 
-const getMentorLimit = ({ limit }) => (limit.charAt(0) === '2' ? 8 : 4);
+const getMentorLimit = ({ limit }) =>
+  limit && limit.charAt(0) === '2' ? 8 : 4;
 
 const getMatchIdx = (matchesRaw, mentor) =>
   matchesRaw.findIndex(match => match.mentor.id === mentor.id);
