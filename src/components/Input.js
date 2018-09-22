@@ -38,7 +38,10 @@ const InputTextUserOptions = ({
       />
       <div className="uk-form-controls">
         <input
-          className="uk-input uk-form-width-small"
+          className={
+            'uk-input uk-form-width-small' +
+            (value < 0 ? ' uk-form-danger' : '')
+          }
           type="number"
           value={value}
           onChange={handleChange(isMentor ? 0 : 1)}

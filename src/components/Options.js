@@ -62,7 +62,7 @@ class Options extends PureComponent {
       mentorName: this.convertStringToArrInts(state.mentorName),
       menteeName: this.convertStringToArrInts(state.menteeName)
     });
-    this.props.handleChangeOptions(this.state);
+    this.props.handleChangeOptions({ ...state });
   };
 
   handleAdd = () => {

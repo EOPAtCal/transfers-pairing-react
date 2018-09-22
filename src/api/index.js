@@ -136,7 +136,6 @@ async function getRows(values, selector) {
 const gapi = (window.gapi = window.gapi || {});
 let options;
 let matches, unmatchedMentees, unmatchedMentors;
-
 /**
  *  On load, called to load the auth2 library and API client library.
  *  Initializes the API client library and sets up sign-in state
