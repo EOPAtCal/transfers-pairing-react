@@ -33,7 +33,7 @@ class Options extends PureComponent {
     const attributes = ['mentor', 'mentee', 'name'];
     Object.assign(elem, {
       [attributes[index]]:
-        event.target.type == 'number'
+        event.target.type === 'number'
           ? parseInt(event.target.value, 10)
           : event.target.value
     });
@@ -50,11 +50,10 @@ class Options extends PureComponent {
     });
   };
 
-  getName = (key, name) => key + name.charAt(0).toUpperCase() + name.slice(1);
+  static convertArrToString = arr => (arr ? arr.join(',') : '');
 
-  static convertArrToString = arr => arr.join(',');
-
-  convertStringToArrInts = str => str.split(',').map(num => parseInt(num, 10));
+  convertStringToArrInts = str =>
+    str ? str.split(',').map(num => parseInt(num, 10)) : [];
 
   handleSubmit = e => {
     e.preventDefault();

@@ -41,9 +41,7 @@ class App extends PureComponent {
     this.setState({
       isLoading: true
     });
-    console.log(this.state.options);
     const { matches, unmatchedMentees, unmatchedMentors } = await this.fetch();
-    console.log(this.state.options);
     this.setState({
       matches,
       unmatchedMentees,

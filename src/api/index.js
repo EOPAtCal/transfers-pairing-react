@@ -44,33 +44,41 @@ async function handleSignoutClick(event) {
   window.location.reload(true);
 }
 
+const getNames = (arr, row) =>
+  arr.reduce((res, index) => res + row[index] + ' ', '');
+
 async function selectMentee(row) {
-  return await {
-    name: options.menteeName.reduce((res, index) => res + row[index] + ' ', ''),
-    email: row[options.menteeEmail],
-    college: row[options.menteeCollege],
-    major: row[options.menteeMajor],
-    get id() {
-      return this.email;
-    }
-  };
+  return await Object.assign(
+    {
+      name: getNames(options.menteeName, row),
+      email: row[options.menteeEmail],
+      get id() {
+        return this.email;
+      }
+    },
+    ...options.userOptions.map(({ name, mentee }) => ({
+      [name]: row[mentee]
+    }))
+  );
 }
 
 function selectMentor(row) {
   return new Promise(resolve => {
-    resolve({
-      name: options.mentorName.reduce(
-        (res, index) => res + row[index] + ' ',
-        ''
-      ),
-      email: row[options.mentorEmail],
-      college: row[options.mentorCollege],
-      major: row[options.mentorMajor],
-      limit: row[options.mentorLimit],
-      get id() {
-        return this.email;
-      }
-    });
+    resolve(
+      Object.assign(
+        {
+          name: getNames(options.mentorName, row),
+          email: row[options.mentorEmail],
+          limit: row[options.mentorLimit],
+          get id() {
+            return this.email;
+          }
+        },
+        ...options.userOptions.map(({ name, mentor }) => ({
+          [name]: row[mentor]
+        }))
+      )
+    );
   });
 }
 
