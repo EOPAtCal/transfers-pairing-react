@@ -12,20 +12,7 @@ class Options extends PureComponent {
     mentorEmail: this.props.options.mentorEmail,
     mentorName: Options.convertArrToString(this.props.options.mentorName),
     menteeName: Options.convertArrToString(this.props.options.menteeName),
-    userOptions: [
-      {
-        name: 'college',
-        mentor: this.props.options.mentorCollege,
-        mentee: this.props.options.menteeCollege,
-        matchBy: this.props.options.matchByCollege
-      },
-      {
-        name: 'major',
-        mentor: this.props.options.mentorMajor,
-        mentee: this.props.options.menteeMajor,
-        matchBy: this.props.options.matchByMajor
-      }
-    ],
+    userOptions: this.props.options.userOptions,
     randomMatch: this.props.options.randomMatch,
     index: 0
   };
@@ -45,7 +32,10 @@ class Options extends PureComponent {
     const elem = this.state.userOptions[idx];
     const attributes = ['mentor', 'mentee', 'name'];
     Object.assign(elem, {
-      [attributes[index]]: parseInt(event.target.value, 10)
+      [attributes[index]]:
+        event.target.type == 'number'
+          ? parseInt(event.target.value, 10)
+          : event.target.value
     });
     this.setState({
       userOptions: [...this.state.userOptions]
@@ -68,18 +58,12 @@ class Options extends PureComponent {
 
   handleSubmit = e => {
     e.preventDefault();
-    const options = JSON.parse(JSON.stringify(this.state));
-    options.userOptions.forEach(obj => {
-      Object.keys(obj).forEach(key => {
-        if (key !== 'name') {
-          options[this.getName(key, obj.name)] = obj[key];
-        }
-      });
+    const state = this.state;
+    Object.assign(state, {
+      mentorName: this.convertStringToArrInts(state.mentorName),
+      menteeName: this.convertStringToArrInts(state.menteeName)
     });
-    options.mentorName = this.convertStringToArrInts(options.mentorName);
-    options.menteeName = this.convertStringToArrInts(options.menteeName);
-    delete options.userOptions;
-    this.props.handleChangeOptions(options);
+    this.props.handleChangeOptions(this.state);
   };
 
   handleAdd = () => {

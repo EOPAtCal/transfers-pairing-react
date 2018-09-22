@@ -7,12 +7,19 @@
   "menteeRange": "A2:AC351",
   "menteeEmail": 8,
   "menteeName": [1, 2, 3],
-  "menteeCollege": 9,
-  "mentorCollege": 4,
-  "mentorMajor": 19,
-  "menteeMajor": 28,
+  "userOptions": [{
+      "name": "college",
+      "mentor": 4,
+      "mentee": 9,
+      "matchBy": true
+    },
+    {
+      "name": "major",
+      "mentor": 19,
+      "mentee": 28,
+      "matchBy": true
+    }
+  ],
   "randomMatch": true,
-  "matchByMajor": true,
-  "matchByCollege": true,
   "mentorLimit": 20
 }
