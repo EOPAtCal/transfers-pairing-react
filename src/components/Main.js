@@ -6,7 +6,7 @@ function InfoCard({ name, email, college, major, limit }) {
   return (
     <div uk-dropdown="pos: bottom-left; delay-hide: 0; animation: uk-animation-slide-bottom-small; ">
       <div className="uk-card uk-card-body uk-card-small">
-        <h3 className="uk-card-title">{name}</h3>
+        <h4 className="uk-card-title">{name}</h4>
         <p>{email}</p>
         <p>{college}</p>
         <p>{major}</p>
@@ -60,6 +60,7 @@ const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
             <div className="uk-inline">
               <li>{mentor.id}</li>
               <InfoCard
+                name={mentor.name}
                 email={mentor.email}
                 college={mentor.college}
                 major={mentor.major}
@@ -74,6 +75,7 @@ const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
                 <button type="button" uk-icon="copy" />
               </li>,
               <InfoCard
+                name={mentee.name}
                 key={mentee.email}
                 email={mentee.email}
                 college={mentee.college}
@@ -115,6 +117,7 @@ const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
                 <button type="button" uk-icon="copy" />
               </li>,
               <InfoCard
+                name={mentor.name}
                 key={mentor.email}
                 email={mentor.email}
                 college={mentor.college}
@@ -130,6 +133,7 @@ const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
                 <button type="button" uk-icon="copy" />
               </li>,
               <InfoCard
+                name={mentee.name}
                 key={mentee.email}
                 email={mentee.email}
                 college={mentee.college}

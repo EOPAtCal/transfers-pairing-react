@@ -44,24 +44,29 @@ async function handleSignoutClick(event) {
   window.location.reload(true);
 }
 
-async function selectMentee(user) {
+async function selectMentee(row) {
   return await {
-    email: user[options.menteeEmail],
-    college: user[options.menteeCollege],
-    major: user[options.menteeMajor],
+    name: options.menteeName.reduce((res, index) => res + row[index] + ' ', ''),
+    email: row[options.menteeEmail],
+    college: row[options.menteeCollege],
+    major: row[options.menteeMajor],
     get id() {
       return this.email;
     }
   };
 }
 
-function selectMentor(user) {
+function selectMentor(row) {
   return new Promise(resolve => {
     resolve({
-      email: user[options.mentorEmail],
-      college: user[options.mentorCollege],
-      major: user[options.mentorMajor],
-      limit: user[options.mentorLimit],
+      name: options.mentorName.reduce(
+        (res, index) => res + row[index] + ' ',
+        ''
+      ),
+      email: row[options.mentorEmail],
+      college: row[options.mentorCollege],
+      major: row[options.mentorMajor],
+      limit: row[options.mentorLimit],
       get id() {
         return this.email;
       }
