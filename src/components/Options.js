@@ -10,6 +10,8 @@ class Options extends PureComponent {
     menteeRange: this.props.options.menteeRange,
     menteeEmail: this.props.options.menteeEmail,
     mentorEmail: this.props.options.mentorEmail,
+    mentorName: this.props.options.mentorName,
+    menteeName: this.props.options.menteeName,
     userOptions: [
       {
         name: 'college',
@@ -59,6 +61,8 @@ class Options extends PureComponent {
   };
 
   getName = (key, name) => key + name.charAt(0).toUpperCase() + name.slice(1);
+
+  convertArrToString = arr => arr.join(',');
 
   handleSubmit = e => {
     e.preventDefault();
