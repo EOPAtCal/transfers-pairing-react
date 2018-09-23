@@ -98,7 +98,47 @@ function match({ mentors, mentees }) {
   };
 }
 
-function randomMatch({ matches, unmatchedMentors, unmatchedMentees }) {}
+function randomMatchCore({ matches, unmatchedMentors, unmatchedMentees }) {
+  let i, j, k;
+  let mentor, mentee;
+  i = 0;
+  j = 0;
+  while (unmatchedMentees > 0 && unmatchedMentors > 0) {
+    mentee = unmatchedMentees[i];
+    while (unmatchedMentors.length > 0) {
+      mentor = unmatchedMentors[j];
+      k = getMatchIdx(matches, mentor);
+      if (isMentorFullyPaired(matches[k])) {
+        unmatchedMentors.splice(j, 1);
+      } else {
+        pair(matches, k, mentee, 'random');
+        unmatchedMentors.splice(j, 1);
+        break;
+      }
+      j++;
+    }
+    unmatchedMentees.splice(i, 1);
+    i++;
+  }
+  return {
+    matches,
+    unmatchedMentees,
+    unmatchedMentors
+  };
+}
+
+function randomMatch({ matches, unmatchedMentors, unmatchedMentees }) {
+  const { matches, unmatchedMentors, unmatchedMentees } = randomMatchCore({
+    matches: setup(unmatchedMentors),
+    unmatchedMentors,
+    unmatchedMentees
+  });
+  randomMatchCore({
+    matches,
+    unmatchedMentors,
+    unmatchedMentees
+  });
+}
 
 function prettyPrint({ matches, unmatchedMentors, unmatchedMentees }) {
   if (matches) {
