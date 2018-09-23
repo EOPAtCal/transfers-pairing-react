@@ -8,3 +8,11 @@ body {
 ul.uk-list>li {
   overflow: hidden;
 }
+
+.input-error {
+  border-color: #f0506e !important;
+}
+
+.fontweight-300 {
+  font-weight: 300;
+}

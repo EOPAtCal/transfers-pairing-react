@@ -59,9 +59,7 @@ class Options extends PureComponent {
 
   handleSave = e => {
     e.preventDefault();
-    if (this.isValidState(this.state)) {
-      this.props.handleChangeOptions(this.state);
-    }
+    this.props.handleChangeOptions(this.state, this.isValidState(this.state));
   };
 
   handleAdd = () => {
@@ -109,10 +107,7 @@ class Options extends PureComponent {
             </h2>
           </div>
           <div>
-            <h4
-              className="uk-margin-remove uk-text-muted"
-              style={{ fontWeight: 300 }}
-            >
+            <h4 className="uk-margin-remove uk-text-muted fontweight-300">
               Be careful, what you change here will affect the matching results.
             </h4>
           </div>

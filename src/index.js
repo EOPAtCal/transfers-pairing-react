@@ -19,7 +19,7 @@ class App extends PureComponent {
     isLoading: true
   };
 
-  notify() {
+  notifySucccess() {
     UIkit.notification({
       message: 'Saved!',
       status: 'success',
@@ -28,13 +28,26 @@ class App extends PureComponent {
     });
   }
 
-  handleChangeOptions = options => {
-    this.setState(
-      {
-        options
-      },
-      this.notify
-    );
+  notifyFailure() {
+    UIkit.notification({
+      message: 'Error!',
+      status: 'danger',
+      pos: 'top-left',
+      timeout: 5000
+    });
+  }
+
+  handleChangeOptions = (options, isValid) => {
+    if (isValid) {
+      this.setState(
+        {
+          options
+        },
+        this.notifySucccess
+      );
+    } else {
+      this.notifyFailure();
+    }
   };
 
   handleMatch = async () => {

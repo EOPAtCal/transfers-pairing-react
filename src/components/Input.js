@@ -36,10 +36,7 @@ const InputTextUserOptions = ({
   <div className="uk-grid uk-flex-middle">
     <div className="uk-margin">
       <input
-        className="uk-input uk-form-blank uk-form-width-small"
-        style={{
-          borderColor: '#f0506e!important'
-        }}
+        className="uk-input uk-form-blank uk-form-width-small input-error"
         type="text"
         value={label}
         onChange={handleChange(2)}
