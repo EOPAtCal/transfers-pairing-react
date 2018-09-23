@@ -10,8 +10,8 @@ class Options extends PureComponent {
     menteeRange: this.props.options.menteeRange,
     menteeEmail: this.props.options.menteeEmail,
     mentorEmail: this.props.options.mentorEmail,
-    mentorName: Options.convertArrToString(this.props.options.mentorName),
-    menteeName: Options.convertArrToString(this.props.options.menteeName),
+    mentorName: this.props.options.mentorName,
+    menteeName: this.props.options.menteeName,
     userOptions: this.props.options.userOptions,
     randomMatch: this.props.options.randomMatch,
     index: 0
@@ -50,19 +50,18 @@ class Options extends PureComponent {
     });
   };
 
-  static convertArrToString = arr => (arr ? arr.join(',') : '');
+  isValidState = state => {
+    if (state.mentorEmail < 0 || state.menteeEmail < 0) return false;
+    for (const { mentor, mentee } of state.userOptions)
+      if (mentor < 0 || mentee < 0) return false;
+    return true;
+  };
 
-  convertStringToArrInts = str =>
-    str ? str.split(',').map(num => parseInt(num, 10)) : [];
-
-  handleSubmit = e => {
+  handleSave = e => {
     e.preventDefault();
-    const state = this.state;
-    Object.assign(state, {
-      mentorName: this.convertStringToArrInts(state.mentorName),
-      menteeName: this.convertStringToArrInts(state.menteeName)
-    });
-    this.props.handleChangeOptions({ ...state });
+    if (this.isValidState(this.state)) {
+      this.props.handleChangeOptions(this.state);
+    }
   };
 
   handleAdd = () => {
@@ -121,7 +120,7 @@ class Options extends PureComponent {
         <hr />
         <form
           className="uk-text-left uk-form-horizontal"
-          onSubmit={this.handleSubmit}
+          onSubmit={this.handleSave}
         >
           <div className="uk-grid-small" uk-grid="">
             <div className="uk-width-1-2@s">
@@ -187,7 +186,6 @@ class Options extends PureComponent {
                   label="spreadsheet ID"
                   name="menteeSpreadsheetId"
                   type="text"
-                  required
                   value={menteeSpreadsheetId}
                   handleChange={this.handleChange}
                 />
@@ -195,7 +193,6 @@ class Options extends PureComponent {
                   label="spreadsheet range"
                   name="menteeRange"
                   type="text"
-                  required
                   value={menteeRange}
                   handleChange={this.handleChange}
                 />
@@ -246,11 +243,7 @@ class Options extends PureComponent {
           </Fieldset>
           <div className="uk-grid-small" uk-grid="">
             <div className="uk-width-1-2@s">
-              <button
-                type="submit"
-                className="uk-button uk-button-danger"
-                onClick={this.handleSubmit}
-              >
+              <button type="submit" className="uk-button uk-button-danger">
                 <span uk-icon="check" className="uk-margin-small-right" /> Save
               </button>
             </div>

@@ -8,7 +8,13 @@ const InputText = ({ label, value, handleChange, name, type }) => (
       </label>
       <div className="uk-form-controls">
         <input
-          className="uk-input uk-form-width-small"
+          className={
+            'uk-input uk-form-width-small' +
+            ((type === 'number' && (value < 0 || isNaN(value))) ||
+            (type === 'text' && !value)
+              ? ' uk-form-danger'
+              : '')
+          }
           type={type}
           required
           value={value}
@@ -31,6 +37,9 @@ const InputTextUserOptions = ({
     <div className="uk-margin">
       <input
         className="uk-input uk-form-blank uk-form-width-small"
+        style={{
+          borderColor: '#f0506e!important'
+        }}
         type="text"
         value={label}
         onChange={handleChange(2)}
@@ -40,7 +49,7 @@ const InputTextUserOptions = ({
         <input
           className={
             'uk-input uk-form-width-small' +
-            (value < 0 ? ' uk-form-danger' : '')
+            (value < 0 || isNaN(value) ? ' uk-form-danger' : '')
           }
           type="number"
           value={value}
@@ -59,21 +68,19 @@ const InputTextUserOptions = ({
   </div>
 );
 
-const InputCheckbox = ({ label, handleChange, checked, name }) => {
-  return (
-    <div className="uk-margin">
-      <label>
-        <input
-          name={name}
-          className="uk-checkbox uk-margin-small-right"
-          type="checkbox"
-          checked={checked}
-          onChange={handleChange}
-        />
-        {label}
-      </label>
-    </div>
-  );
-};
+const InputCheckbox = ({ label, handleChange, checked, name }) => (
+  <div className="uk-margin">
+    <label>
+      <input
+        name={name}
+        className="uk-checkbox uk-margin-small-right"
+        type="checkbox"
+        checked={checked}
+        onChange={handleChange}
+      />
+      {label}
+    </label>
+  </div>
+);
 
 export { InputText, InputCheckbox, InputTextUserOptions };

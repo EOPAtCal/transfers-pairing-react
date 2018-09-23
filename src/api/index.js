@@ -47,10 +47,13 @@ async function handleSignoutClick(event) {
 const getNames = (arr, row) =>
   arr.reduce((res, index) => res + row[index] + ' ', '');
 
+const convertStringToArrInts = str =>
+  str ? str.split(',').map(num => parseInt(num, 10)) : [];
+
 async function selectMentee(row) {
   return await Object.assign(
     {
-      name: getNames(options.menteeName, row),
+      name: getNames(convertStringToArrInts(options.menteeName), row),
       email: row[options.menteeEmail],
       get id() {
         return this.email;
@@ -67,7 +70,7 @@ function selectMentor(row) {
     resolve(
       Object.assign(
         {
-          name: getNames(options.mentorName, row),
+          name: getNames(convertStringToArrInts(options.mentorName), row),
           email: row[options.mentorEmail],
           limit: row[options.mentorLimit],
           get id() {
