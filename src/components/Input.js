@@ -10,8 +10,7 @@ const InputText = ({ label, value, handleChange, name, type }) => (
         <input
           className={
             'uk-input uk-form-width-small' +
-            ((type === 'number' && (value < 0 || isNaN(value))) ||
-            (type === 'text' && !value)
+            ((type === 'number' && value < 0) || (value !== 0 && !value)
               ? ' uk-form-danger'
               : '')
           }
@@ -36,7 +35,10 @@ const InputTextUserOptions = ({
   <div className="uk-grid uk-flex-middle">
     <div className="uk-margin">
       <input
-        className="uk-input uk-form-blank uk-form-width-small input-error"
+        className={
+          'uk-input uk-form-blank uk-form-width-small' +
+          (!label ? ' input-error' : '')
+        }
         type="text"
         value={label}
         onChange={handleChange(2)}
@@ -46,7 +48,7 @@ const InputTextUserOptions = ({
         <input
           className={
             'uk-input uk-form-width-small' +
-            (value < 0 || isNaN(value) ? ' uk-form-danger' : '')
+            (value < 0 || (value !== 0 && !value) ? ' uk-form-danger' : '')
           }
           type="number"
           value={value}
