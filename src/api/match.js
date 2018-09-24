@@ -7,19 +7,21 @@ const isMentorFullyPaired = ({ mentees, maxMenteesSize }) => {
   return maxMenteesSize === mentees.length;
 };
 
-const majorAndCollegeMatch = (mentee, mentors) =>
-  mentors.findIndex(
-    mentor => mentor.college === mentee.college && mentor.major === mentee.major
-  );
-
-const majorMatch = (mentee, mentors) =>
-  mentors.findIndex(mentor => mentor.major === mentee.major);
-
-const collegeMatch = (mentee, mentors) =>
-  mentors.findIndex(mentor => mentor.college === mentee.college);
-
-const checkForMatch = (mentee, mentors, attr) =>
-  mentors.findIndex(mentor => mentor[attr] === mentee[attr]);
+const checkForMatch = (mentee, mentors, attr) => {
+  let idx;
+  if (Array.isArray(attr)) {
+    if (attr.length === 0) return true;
+    else if (
+      (idx = checkForMatch(mentee, mentors, attr[0])) > -1 &&
+      checkForMatch(mentee, mentors, attr.slice(1)) === true
+    ) {
+      return idx;
+    }
+    return -1;
+  } else {
+    return mentors.findIndex(mentor => mentor[attr] === mentee[attr]);
+  }
+};
 
 const getMentorLimit = ({ limit }) =>
   limit && limit.charAt(0) === '2' ? 8 : 4;
@@ -79,40 +81,48 @@ function getCombination(arr, n) {
   return results;
 }
 
-getCombination(['a', 'b', 'c', 'd', 'e', 'f'], 2);
+const reasonify = attr => {
+  if (Array.isArray(attr))
+    return attr.reduce((acc, curr) => acc + ' & ' + curr, '');
+  else return attr;
+};
 
 /** First come first served matching algorithm. Best fit first. */
 function match({ mentors, mentees, options }) {
-  let mentorIdx = 0;
-  let menteeIdx = 0;
+  let mentorIdx;
+  let menteeIdx;
   let mentee;
   let reason;
-  let ok = 1;
   let matchIdx;
-  mentors = mentors.slice(0); // copy preventing changes to original
+  let combinations;
+  let names;
+  let all;
   const unmatchedMentees = [];
   const matchesRaw = setup(mentors);
+  mentors = mentors.slice(0);
+  menteeIdx = 0;
   while (mentors.length > 0 && menteeIdx < mentees.length) {
+    names = options.userOptions.map(({ name }) => name);
+    combinations = getCombination(names, 2);
+    all = combinations.concat(names);
+    reason = null;
     mentee = mentees[menteeIdx];
-    if ((mentorIdx = majorAndCollegeMatch(mentee, mentors)) > -1) {
-      reason = 'college & major';
-    } else if ((mentorIdx = collegeMatch(mentee, mentors)) > -1) {
-      reason = 'college';
-    } else if ((mentorIdx = majorMatch(mentee, mentors)) > -1) {
-      reason = 'major';
-    } else {
-      unmatchedMentees.push(mentee);
-      ok = 0;
+    for (const item of all) {
+      if ((mentorIdx = checkForMatch(mentee, mentors, item) > -1)) {
+        reason = reasonify(item);
+        break;
+      }
     }
-    if (ok) {
+    if (reason) {
       matchIdx = getMatchIdx(matchesRaw, mentors[mentorIdx]);
       pair(matchesRaw, matchIdx, mentee, reason);
       if (isMentorFullyPaired(matchesRaw[matchIdx])) {
         mentors.splice(mentorIdx, 1);
       }
+    } else {
+      unmatchedMentees.push(mentee);
     }
     menteeIdx += 1;
-    ok = 1;
   }
   const { matches, unmatchedMentors } = filterUnmatched(matchesRaw);
   return {
