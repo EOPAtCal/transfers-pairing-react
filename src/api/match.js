@@ -18,6 +18,9 @@ const majorMatch = (mentee, mentors) =>
 const collegeMatch = (mentee, mentors) =>
   mentors.findIndex(mentor => mentor.college === mentee.college);
 
+const checkForMatch = (mentee, mentors, attr) =>
+  mentors.findIndex(mentor => mentor[attr] === mentee[attr]);
+
 const getMentorLimit = ({ limit }) =>
   limit && limit.charAt(0) === '2' ? 8 : 4;
 
@@ -56,7 +59,29 @@ function filterUnmatched(matchesRaw) {
   };
 }
 
-/** First come first served matching algorithm. */
+function getCombination(arr, n) {
+  const l = arr.length;
+  let i, j, k, subarr;
+  i = 0;
+  const results = [];
+  while (i <= l - n) {
+    j = i + n;
+    k = 0;
+    while (j <= l) {
+      subarr = arr.slice(i, j);
+      subarr.splice(1, k);
+      results.push(subarr);
+      j++;
+      k++;
+    }
+    i++;
+  }
+  return results;
+}
+
+getCombination(['a', 'b', 'c', 'd', 'e', 'f'], 2);
+
+/** First come first served matching algorithm. Best fit first. */
 function match({ mentors, mentees, options }) {
   let mentorIdx = 0;
   let menteeIdx = 0;
