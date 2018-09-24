@@ -153,13 +153,13 @@ class Options extends PureComponent {
                   value={mentorEmail}
                   handleChange={this.handleChange}
                 />
-                {/* <InputText
+                <InputText
                   label="mentor limit"
                   name="mentorLimit"
                   type="number"
                   value={mentorLimit}
                   handleChange={this.handleChange}
-                /> */}
+                />
                 {userOptions.map(({ name, mentor }, idx) => (
                   <InputTextUserOptions
                     key={idx}
@@ -217,7 +217,19 @@ class Options extends PureComponent {
                   value={menteeEmail}
                   handleChange={this.handleChange}
                 />
-
+                <div className="uk-margin uk-invisible">
+                  <label className="uk-form-label">label</label>
+                  <div className="uk-form-controls">
+                    <input
+                      className="uk-input uk-form-width-small"
+                      type="number"
+                      required
+                      value="value"
+                      name="name"
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                </div>
                 {userOptions.map(({ name, mentee }, idx) => (
                   <InputTextUserOptions
                     key={idx}
