@@ -57,7 +57,6 @@ function filterUnmatched(matchesRaw) {
 }
 
 /** First come first served matching algorithm. */
-
 function match({ mentors, mentees }) {
   let mentorIdx = 0;
   let menteeIdx = 0;
@@ -65,7 +64,7 @@ function match({ mentors, mentees }) {
   let reason;
   let ok = 1;
   let matchIdx;
-  // let mentors = mentors.slice(0); // copy preventing changes to original
+  mentors = mentors.slice(0); // copy preventing changes to original
   const unmatchedMentees = [];
   const matchesRaw = setup(mentors);
   while (mentors.length > 0 && menteeIdx < mentees.length) {
@@ -99,43 +98,44 @@ function match({ mentors, mentees }) {
 }
 
 function randomMatchCore({ matches, unmatchedMentors, unmatchedMentees }) {
-  let i, j, k;
+  let i, j, k, ok;
   let mentor, mentee;
   i = 0;
   j = 0;
-  while (unmatchedMentees > 0 && unmatchedMentors > 0) {
+  const unmatchedMenteesNew = [];
+  if (!matches) matches = setup(unmatchedMentors);
+  while (i < unmatchedMentees.length && j < unmatchedMentors.length) {
     mentee = unmatchedMentees[i];
-    while (unmatchedMentors.length > 0) {
+    ok = 0;
+    while (j < unmatchedMentors.length) {
       mentor = unmatchedMentors[j];
       k = getMatchIdx(matches, mentor);
-      if (isMentorFullyPaired(matches[k])) {
-        unmatchedMentors.splice(j, 1);
-      } else {
+      if (!isMentorFullyPaired(matches[k])) {
+        ok = 1;
         pair(matches, k, mentee, 'random');
-        unmatchedMentors.splice(j, 1);
+        j++;
         break;
       }
       j++;
     }
-    unmatchedMentees.splice(i, 1);
+    if (!ok) unmatchedMenteesNew.push(mentee);
     i++;
   }
+  const results = filterUnmatched(matches);
   return {
-    matches,
-    unmatchedMentees,
-    unmatchedMentors
+    matches: results.matches,
+    unmatchedMentees: unmatchedMenteesNew,
+    unmatchedMentors: results.unmatchedMentors
   };
 }
 
 function randomMatch({ matches, unmatchedMentors, unmatchedMentees }) {
-  const { matches, unmatchedMentors, unmatchedMentees } = randomMatchCore({
-    matches: setup(unmatchedMentors),
+  randomMatchCore({
     unmatchedMentors,
     unmatchedMentees
   });
   randomMatchCore({
     matches,
-    unmatchedMentors,
     unmatchedMentees
   });
 }
