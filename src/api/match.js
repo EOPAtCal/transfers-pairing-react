@@ -57,7 +57,7 @@ function filterUnmatched(matchesRaw) {
 }
 
 /** First come first served matching algorithm. */
-function match({ mentors, mentees }) {
+function match({ mentors, mentees, options }) {
   let mentorIdx = 0;
   let menteeIdx = 0;
   let mentee;
@@ -121,23 +121,33 @@ function randomMatchCore({ matches, unmatchedMentors, unmatchedMentees }) {
     if (!ok) unmatchedMenteesNew.push(mentee);
     i++;
   }
-  const results = filterUnmatched(matches);
   return {
-    matches: results.matches,
-    unmatchedMentees: unmatchedMenteesNew,
-    unmatchedMentors: results.unmatchedMentors
+    matches,
+    unmatchedMentees: unmatchedMenteesNew
   };
 }
 
 function randomMatch({ matches, unmatchedMentors, unmatchedMentees }) {
-  randomMatchCore({
+  const {
+    matches: newMatches,
+    unmatchedMentees: unmatchedMenteesNew
+  } = randomMatchCore({
     unmatchedMentors,
     unmatchedMentees
   });
-  randomMatchCore({
+  const {
+    matches: newNewMatches,
+    unmatchedMentees: unmatchedMenteesNewNew
+  } = randomMatchCore({
     matches,
-    unmatchedMentees
+    unmatchedMentees: unmatchedMenteesNew
   });
+  const results = filterUnmatched(newMatches.concat(newNewMatches));
+  return {
+    matches: results.matches,
+    unmatchedMentors: results.unmatchedMentors,
+    unmatchedMentees: unmatchedMenteesNewNew
+  };
 }
 
 function prettyPrint({ matches, unmatchedMentors, unmatchedMentees }) {

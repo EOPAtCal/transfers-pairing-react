@@ -14,6 +14,7 @@ class Options extends PureComponent {
     menteeName: this.props.options.menteeName,
     userOptions: this.props.options.userOptions,
     randomMatch: this.props.options.randomMatch,
+    mentorLimit: this.props.options.mentorLimit,
     index: 0
   };
 
@@ -51,7 +52,8 @@ class Options extends PureComponent {
   };
 
   isValidState = state => {
-    if (state.mentorEmail < 0 || state.menteeEmail < 0) return false;
+    if (state.mentorEmail < 0 || state.menteeEmail < 0 || state.mentorLimit < 0)
+      return false;
     for (const { mentor, mentee } of state.userOptions)
       if (mentor < 0 || mentee < 0) return false;
     return true;
@@ -96,7 +98,8 @@ class Options extends PureComponent {
       userOptions,
       mentorName,
       menteeName,
-      randomMatch
+      randomMatch,
+      mentorLimit
     } = this.state;
     return (
       <Fragment>
@@ -114,11 +117,11 @@ class Options extends PureComponent {
         </div>
         <hr />
         <form
-          className="uk-text-left uk-form-horizontal"
+          className="uk-text-left uk-form-stacked"
           onSubmit={this.handleSave}
         >
-          <div className="uk-grid-small" uk-grid="">
-            <div className="uk-width-1-2@s">
+          <div className="uk-grid-small uk-child-width-1-2@s" uk-grid="">
+            <div>
               <Fieldset label="mentor spreadsheet">
                 <InputText
                   label="spreadsheet ID"
@@ -150,6 +153,13 @@ class Options extends PureComponent {
                   value={mentorEmail}
                   handleChange={this.handleChange}
                 />
+                {/* <InputText
+                  label="mentor limit"
+                  name="mentorLimit"
+                  type="number"
+                  value={mentorLimit}
+                  handleChange={this.handleChange}
+                /> */}
                 {userOptions.map(({ name, mentor }, idx) => (
                   <InputTextUserOptions
                     key={idx}
@@ -175,7 +185,7 @@ class Options extends PureComponent {
                 </div>
               </Fieldset>
             </div>
-            <div className="uk-width-1-2@s">
+            <div>
               <Fieldset label="mentee spreadsheet">
                 <InputText
                   label="spreadsheet ID"
@@ -207,6 +217,7 @@ class Options extends PureComponent {
                   value={menteeEmail}
                   handleChange={this.handleChange}
                 />
+
                 {userOptions.map(({ name, mentee }, idx) => (
                   <InputTextUserOptions
                     key={idx}

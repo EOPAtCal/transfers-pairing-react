@@ -6,6 +6,7 @@
   "menteeSpreadsheetId": "1hRQ5v0pao0zh_LSH3zY9LgsSooDyaVjTaxO7cMOR56g",
   "menteeRange": "A2:AC351",
   "menteeEmail": 8,
+  "mentorLimit": 20,
   "menteeName": "1,2,3",
   "userOptions": [{
       "name": "college",
@@ -20,6 +21,5 @@
       "matchBy": true
     }
   ],
-  "randomMatch": true,
-  "mentorLimit": 20
+  "randomMatch": true
 }

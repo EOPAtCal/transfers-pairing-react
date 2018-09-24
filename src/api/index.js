@@ -98,7 +98,8 @@ async function initMatch() {
   });
   const matchResults = match({
     mentors,
-    mentees
+    mentees,
+    options
   });
   matches = matchResults.matches;
   unmatchedMentees = matchResults.unmatchedMentees;
