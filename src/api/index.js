@@ -1,4 +1,4 @@
-import match from './match';
+import { match, randomMatch } from './match';
 // Client ID and API key from the Developer Console
 var CLIENT_ID =
   '189506913922-3lr5j6kj5gr173gh59uh6sm6476mir21.apps.googleusercontent.com';
@@ -96,11 +96,14 @@ async function initMatch() {
     range: options.menteeRange,
     selector: selectMentee
   });
-  const matchResults = match({
+  let matchResults = match({
     mentors,
     mentees,
     options
   });
+  if (options.randomMatch) {
+    matchResults = randomMatch(matchResults);
+  }
   matches = matchResults.matches;
   unmatchedMentees = matchResults.unmatchedMentees;
   unmatchedMentors = matchResults.unmatchedMentors;

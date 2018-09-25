@@ -231,4 +231,4 @@ function tests({ mentors, mentees }) {
   );
 }
 
-export default match;
+export { match, randomMatch };
