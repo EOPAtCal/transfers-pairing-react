@@ -1,14 +1,14 @@
-import React, { PureComponent, StrictMode } from 'react';
-import { render } from 'react-dom';
-import UIkit from 'uikit';
-import Icons from 'uikit/dist/js/uikit-icons';
-import '../node_modules/uikit/dist/css/uikit.min.css';
-import './index.css';
-import Page from './components/Page';
-import ErrorBoundary from './components/ErrorBoundary';
-import Loading from './components/Loading';
-import handleClientLoad from './api';
-import defaults from './defaults.json';
+import React, { PureComponent, StrictMode } from "react";
+import { render } from "react-dom";
+import UIkit from "uikit";
+import Icons from "uikit/dist/js/uikit-icons";
+import "../node_modules/uikit/dist/css/uikit.min.css";
+import "./index.css";
+import Page from "./components/Page";
+import ErrorBoundary from "./components/ErrorBoundary";
+import Loading from "./components/Loading";
+import handleClientLoad from "./api";
+import defaults from "./defaults.json";
 
 class App extends PureComponent {
   state = {
@@ -21,9 +21,9 @@ class App extends PureComponent {
 
   notify() {
     UIkit.notification({
-      message: 'Saved!',
-      status: 'success',
-      pos: 'top-right',
+      message: "Saved!",
+      status: "success",
+      pos: "top-right",
       timeout: 5000
     });
   }
@@ -61,8 +61,8 @@ class App extends PureComponent {
   }
 
   loadScript() {
-    const script = document.createElement('script');
-    script.src = 'https://apis.google.com/js/api.js';
+    const script = document.createElement("script");
+    script.src = "https://apis.google.com/js/api.js";
     script.async = true;
     script.defer = true;
     document.body.appendChild(script);
@@ -115,5 +115,5 @@ render(
       <App />
     </ErrorBoundary>
   </StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
