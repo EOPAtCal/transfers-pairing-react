@@ -123,7 +123,6 @@ async function initMatch() {
     matchResults = randomMatch(matchResults);
   }
   Object.assign(matchResults, filterUnmatched(matchResults.matches));
-  console.log(matchResults);
   matches = matchResults.matches;
   unmatchedMentees = matchResults.unmatchedMentees;
   unmatchedMentors = matchResults.unmatchedMentors;

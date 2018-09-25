@@ -101,8 +101,8 @@ class App extends PureComponent {
   render() {
     const {
       matches = [],
-      unmatchedMentees,
-      unmatchedMentors,
+      unmatchedMentees = [],
+      unmatchedMentors = [],
       options = {},
       isLoading
     } = this.state;

@@ -127,6 +127,7 @@ function randomMatch({ matches, unmatchedMentees }) {
     if (!ok) {
       unmatchedMenteesNew.push(mentee);
     }
+    if (j === matches.length) j = 0;
     i++;
   }
   return {
