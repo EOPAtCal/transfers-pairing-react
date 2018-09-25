@@ -7,24 +7,16 @@ const isMentorFullyPaired = ({ mentees, maxMenteesSize }) => {
   return maxMenteesSize === mentees.length;
 };
 
+const checkForMatchHelper = (mentee, mentors, attr) =>
+  mentors.findIndex(mentor => mentor[attr] === mentee[attr]);
+
 const checkForMatch = (mentee, mentors, attr) => {
-  let idx1;
-  let idx2;
   if (Array.isArray(attr)) {
-    if (attr.length === 0) {
-      return true;
-    } else if ((idx1 = checkForMatch(mentee, mentors, attr[0])) > -1) {
-      idx2 = checkForMatch(mentee, mentors, attr.slice(1));
-      if (typeof idx2 === 'boolean' && idx2) {
-        return idx1;
-      } else if (Number.isInteger(idx2)) if (idx2 === idx1) return idx1;
-      return -1;
-    } else {
-      return -1;
-    }
+    const arr = attr.map(a => checkForMatchHelper(mentee, mentors, a));
+    if (arr.every((a, _, arr) => a === arr[0] && a !== -1)) return arr[0];
+    return -1;
   } else {
-    idx1 = mentors.findIndex(mentor => mentor[attr] === mentee[attr]);
-    return idx1;
+    return checkForMatchHelper(mentee, mentors, attr);
   }
 };
 
@@ -87,8 +79,7 @@ function getCombination(arr, n) {
 }
 
 const reasonify = attr => {
-  if (Array.isArray(attr))
-    return attr.reduce((acc, curr) => acc + ' & ' + curr, '');
+  if (Array.isArray(attr)) return attr.join(' & ');
   else return attr;
 };
 

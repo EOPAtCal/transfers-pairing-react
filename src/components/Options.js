@@ -227,6 +227,7 @@ class Options extends PureComponent {
                       value="value"
                       name="name"
                       onChange={this.handleChange}
+                      noValidate
                     />
                   </div>
                 </div>
