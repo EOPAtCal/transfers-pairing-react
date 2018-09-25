@@ -153,11 +153,12 @@ function randomMatchCore({ matches, unmatchedMentors, unmatchedMentees }) {
   }
   return {
     matches,
-    unmatchedMentees: unmatchedMenteesNew
+    unmatchedMentees: unmatchedMenteesNew.concat(unmatchedMentees.slice(i))
   };
 }
 
 function randomMatch({ matches, unmatchedMentors, unmatchedMentees }) {
+  console.log(unmatchedMentors, unmatchedMentees);
   const {
     matches: newMatches,
     unmatchedMentees: unmatchedMenteesNew
@@ -173,60 +174,13 @@ function randomMatch({ matches, unmatchedMentors, unmatchedMentees }) {
     matches,
     unmatchedMentees: unmatchedMenteesNew
   });
+  console.log(newNewMatches, unmatchedMenteesNewNew);
   const results = filterUnmatched(newMatches.concat(newNewMatches));
   return {
     matches: results.matches,
     unmatchedMentors: results.unmatchedMentors,
     unmatchedMentees: unmatchedMenteesNewNew
   };
-}
-
-function prettyPrint({ matches, unmatchedMentors, unmatchedMentees }) {
-  if (matches) {
-    console.log('matches:');
-    console.log(matches);
-  }
-  if (unmatchedMentors) {
-    console.log('unmatched mentors:');
-    console.log(unmatchedMentors);
-  }
-  if (unmatchedMentees) {
-    console.log('unmatched mentees:');
-    console.log(unmatchedMentees);
-  }
-}
-
-function tests({ mentors, mentees }) {
-  // few mentees
-  prettyPrint(
-    match({
-      mentors,
-      mentees: mentees.slice(0, 3)
-    })
-  );
-  // few mentors
-  prettyPrint(
-    match({
-      mentors: mentors.slice(0, 3),
-      mentees
-    })
-  );
-  // common case
-  prettyPrint(
-    match({
-      mentors,
-      mentees
-    })
-  );
-  // randomly match unmatched
-  prettyPrint(
-    randomMatch(
-      match({
-        mentors,
-        mentees
-      })
-    )
-  );
 }
 
 export { match, randomMatch };
