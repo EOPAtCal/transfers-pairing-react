@@ -15,6 +15,7 @@ class Options extends PureComponent {
     userOptions: this.props.options.userOptions,
     randomMatch: this.props.options.randomMatch,
     mentorLimit: this.props.options.mentorLimit,
+    oneForOne: this.props.options.oneForOne,
     index: 0
   };
 
@@ -99,7 +100,8 @@ class Options extends PureComponent {
       mentorName,
       menteeName,
       randomMatch,
-      mentorLimit
+      mentorLimit,
+      oneForOne
     } = this.state;
     return (
       <Fragment>
@@ -256,6 +258,12 @@ class Options extends PureComponent {
               label="randomly match all unmatched"
               name="randomMatch"
               checked={randomMatch}
+              handleChange={this.handleChange}
+            />
+            <InputCheckbox
+              label="one for one"
+              name="oneForOne"
+              checked={oneForOne}
               handleChange={this.handleChange}
             />
           </Fieldset>

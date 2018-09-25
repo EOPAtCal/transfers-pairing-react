@@ -21,5 +21,6 @@
       "matchBy": true
     }
   ],
-  "randomMatch": true
+  "randomMatch": true,
+  "oneForOne": false
 }

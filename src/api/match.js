@@ -23,13 +23,13 @@ const getMentorLimit = ({ limit }) =>
 const getMatchIdx = (matchesRaw, mentor) =>
   matchesRaw.findIndex(match => match.mentor.id === mentor.id);
 
-function setup(mentors) {
+function setup(mentors, oneForOne) {
   const matchesRaw = [];
   mentors.forEach((mentor, idx) => {
     matchesRaw[idx] = {
       mentor: mentor,
       mentees: [],
-      maxMenteesSize: getMentorLimit(mentor),
+      maxMenteesSize: oneForOne ? 1 : getMentorLimit(mentor),
       reasons: []
     };
   });
@@ -72,7 +72,7 @@ function match({ mentors, mentees, options }) {
   let names;
   let all;
   const unmatchedMentees = [];
-  const matchesRaw = setup(mentors);
+  const matchesRaw = setup(mentors, options.oneForOne);
   mentors = mentors.slice(0);
   menteeIdx = 0;
   while (mentors.length > 0 && menteeIdx < mentees.length) {
@@ -130,12 +130,12 @@ function randomMatch({ matches, unmatchedMentees }) {
     if (j === matches.length) j = 0;
     i++;
   }
-  if (edgeCase === 1) {
-    return randomMatch({
-      matches,
-      unmatchedMentees: unmatchedMentees.slice(i).concat(unmatchedMenteesNew)
-    });
-  }
+  // if (edgeCase === 1) {
+  //   return randomMatch({
+  //     matches,
+  //     unmatchedMentees: unmatchedMentees.slice(i).concat(unmatchedMenteesNew)
+  //   });
+  // }
   return {
     matches,
     unmatchedMentees: unmatchedMentees.slice(i).concat(unmatchedMenteesNew)
