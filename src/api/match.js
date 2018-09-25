@@ -8,20 +8,23 @@ const isMentorFullyPaired = ({ mentees, maxMenteesSize }) => {
 };
 
 const checkForMatch = (mentee, mentors, attr) => {
-  let idx;
+  let idx1;
   let idx2;
   if (Array.isArray(attr)) {
-    if (
-      (idx = checkForMatch(mentee, mentors, attr[0])) > -1 &&
-      (idx2 = checkForMatch(mentee, mentors, attr.slice(1)) > -1)
-    ) {
-      return idx;
+    if (attr.length === 0) {
+      return true;
+    } else if ((idx1 = checkForMatch(mentee, mentors, attr[0])) > -1) {
+      idx2 = checkForMatch(mentee, mentors, attr.slice(1));
+      if (typeof idx2 === 'boolean' && idx2) {
+        return idx1;
+      } else if (Number.isInteger(idx2)) if (idx2 === idx1) return idx1;
+      return -1;
     } else {
       return -1;
     }
   } else {
-    idx = mentors.findIndex(mentor => mentor[attr] === mentee[attr]);
-    return idx;
+    idx1 = mentors.findIndex(mentor => mentor[attr] === mentee[attr]);
+    return idx1;
   }
 };
 
@@ -104,13 +107,15 @@ function match({ mentors, mentees, options }) {
   mentors = mentors.slice(0);
   menteeIdx = 0;
   while (mentors.length > 0 && menteeIdx < mentees.length) {
-    names = options.userOptions.map(({ name }) => name);
+    names = options.userOptions
+      .filter(({ matchBy }) => matchBy === true)
+      .map(({ name }) => name);
     combinations = getCombination(names, 2);
     all = combinations.concat(names);
     reason = null;
     mentee = mentees[menteeIdx];
     for (const item of all) {
-      if ((mentorIdx = checkForMatch(mentee, mentors, item) > -1)) {
+      if ((mentorIdx = checkForMatch(mentee, mentors, item)) > -1) {
         reason = reasonify(item);
         break;
       }
