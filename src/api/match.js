@@ -106,7 +106,7 @@ function match({ mentors, mentees, options }) {
   };
 }
 
-function randomMatch({ matches, unmatchedMentees }) {
+function randomMatch({ matches, unmatchedMentees }, recurse = 0) {
   let i, j, ok, edgeCase;
   let mentee;
   i = 0;
@@ -130,12 +130,15 @@ function randomMatch({ matches, unmatchedMentees }) {
     if (j === matches.length) j = 0;
     i++;
   }
-  // if (edgeCase === 1) {
-  //   return randomMatch({
-  //     matches,
-  //     unmatchedMentees: unmatchedMentees.slice(i).concat(unmatchedMenteesNew)
-  //   });
-  // }
+  if (edgeCase === 1 && recurse === 0) {
+    return randomMatch(
+      {
+        matches,
+        unmatchedMentees: unmatchedMentees.slice(i).concat(unmatchedMenteesNew)
+      },
+      1
+    );
+  }
   return {
     matches,
     unmatchedMentees: unmatchedMentees.slice(i).concat(unmatchedMenteesNew)
