@@ -107,11 +107,12 @@ function match({ mentors, mentees, options }) {
 }
 
 function randomMatch({ matches, unmatchedMentees }) {
-  let i, j, ok;
+  let i, j, ok, edgeCase;
   let mentee;
   i = 0;
   j = 0;
   const unmatchedMenteesNew = [];
+  edgeCase = 0;
   while (i < unmatchedMentees.length) {
     mentee = unmatchedMentees[i];
     ok = 0;
@@ -124,11 +125,16 @@ function randomMatch({ matches, unmatchedMentees }) {
       }
       j++;
     }
+    if (!ok && j === matches.length) edgeCase = 1;
+    if (!ok) unmatchedMenteesNew.push(mentee);
     if (j === matches.length) j = 0;
-    if (!ok) {
-      unmatchedMenteesNew.push(mentee);
-    }
     i++;
+  }
+  if (edgeCase === 1) {
+    return randomMatch({
+      matches,
+      unmatchedMentees: unmatchedMentees.slice(i).concat(unmatchedMenteesNew)
+    });
   }
   return {
     matches,
