@@ -12,7 +12,6 @@ var DISCOVERY_DOCS = [
 var SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly';
 var authorizeButton = document.getElementById('authorize_button');
 var signoutButton = document.getElementById('signout_button');
-
 /**
  *  Called when the signed in status changes, to update the UI
  *  appropriately. After a sign-in, the API is called.
@@ -85,6 +84,25 @@ function selectMentor(row) {
   });
 }
 
+function filterUnmatched(matchesRaw) {
+  const matches = [];
+  const unmatchedMentors = [];
+  matchesRaw.forEach(({ mentor, mentees, reasons, maxMenteesSize }) => {
+    if (mentees.length > 0 || reasons.length > 0) {
+      matches.push({
+        mentor,
+        mentees,
+        reasons,
+        maxMenteesSize
+      });
+    } else unmatchedMentors.push(mentor);
+  });
+  return {
+    matches,
+    unmatchedMentors
+  };
+}
+
 async function initMatch() {
   const mentors = await fetchData({
     spreadsheetId: options.mentorSpreadsheetId,
@@ -104,6 +122,7 @@ async function initMatch() {
   if (options.randomMatch) {
     matchResults = randomMatch(matchResults);
   }
+  Object.assign(matchResults, filterUnmatched(matchResults));
   matches = matchResults.matches;
   unmatchedMentees = matchResults.unmatchedMentees;
   unmatchedMentors = matchResults.unmatchedMentors;

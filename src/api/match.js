@@ -36,25 +36,6 @@ function setup(mentors) {
   return matchesRaw;
 }
 
-function filterUnmatched(matchesRaw) {
-  const matches = [];
-  const unmatchedMentors = [];
-  matchesRaw.forEach(({ mentor, mentees, reasons, maxMenteesSize }) => {
-    if (mentees.length > 0 || reasons.length > 0) {
-      matches.push({
-        mentor,
-        mentees,
-        reasons,
-        maxMenteesSize
-      });
-    } else unmatchedMentors.push(mentor);
-  });
-  return {
-    matches,
-    unmatchedMentors
-  };
-}
-
 function getCombination(arr, n) {
   const l = arr.length;
   let i, j, k, subarr;
@@ -119,67 +100,38 @@ function match({ mentors, mentees, options }) {
     }
     menteeIdx += 1;
   }
-  const { matches, unmatchedMentors } = filterUnmatched(matchesRaw);
   return {
-    matches,
-    unmatchedMentors,
+    matches: matchesRaw,
     unmatchedMentees
   };
 }
 
-function randomMatchCore({ matches, unmatchedMentors, unmatchedMentees }) {
-  let i, j, k, ok;
-  let mentor, mentee;
+function randomMatch({ matches, unmatchedMentees }) {
+  let i, j, ok;
+  let mentee;
   i = 0;
   j = 0;
   const unmatchedMenteesNew = [];
-  if (!matches) matches = setup(unmatchedMentors);
-  while (i < unmatchedMentees.length && j < unmatchedMentors.length) {
+  while (i < unmatchedMentees.length && j < matches.length) {
     mentee = unmatchedMentees[i];
     ok = 0;
-    while (j < unmatchedMentors.length) {
-      mentor = unmatchedMentors[j];
-      k = getMatchIdx(matches, mentor);
-      if (!isMentorFullyPaired(matches[k])) {
+    while (j < matches.length) {
+      if (!isMentorFullyPaired(matches[j])) {
+        pair(matches, j, mentee, 'reason');
         ok = 1;
-        pair(matches, k, mentee, 'random');
         j++;
         break;
       }
       j++;
     }
-    if (!ok) unmatchedMenteesNew.push(mentee);
+    if (!ok) {
+      unmatchedMenteesNew.push(mentee);
+    }
     i++;
   }
   return {
     matches,
-    unmatchedMentees: unmatchedMenteesNew.concat(unmatchedMentees.slice(i))
-  };
-}
-
-function randomMatch({ matches, unmatchedMentors, unmatchedMentees }) {
-  console.log(unmatchedMentors, unmatchedMentees);
-  const {
-    matches: newMatches,
-    unmatchedMentees: unmatchedMenteesNew
-  } = randomMatchCore({
-    unmatchedMentors,
-    unmatchedMentees
-  });
-  console.log(newMatches, unmatchedMenteesNew);
-  const {
-    matches: newNewMatches,
-    unmatchedMentees: unmatchedMenteesNewNew
-  } = randomMatchCore({
-    matches,
-    unmatchedMentees: unmatchedMenteesNew
-  });
-  console.log(newNewMatches, unmatchedMenteesNewNew);
-  const results = filterUnmatched(newMatches.concat(newNewMatches));
-  return {
-    matches: results.matches,
-    unmatchedMentors: results.unmatchedMentors,
-    unmatchedMentees: unmatchedMenteesNewNew
+    unmatchedMentees: unmatchedMentees.slice(i).concat(unmatchedMenteesNew)
   };
 }
 
