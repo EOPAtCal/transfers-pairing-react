@@ -7,16 +7,13 @@ const isMentorFullyPaired = ({ mentees, maxMenteesSize }) => {
   return maxMenteesSize === mentees.length;
 };
 
-const checkForMatchHelper = (mentee, mentors, attr) =>
-  mentors.findIndex(mentor => mentor[attr] === mentee[attr]);
-
 const checkForMatch = (mentee, mentors, attr) => {
   if (Array.isArray(attr)) {
-    const arr = attr.map(a => checkForMatchHelper(mentee, mentors, a));
-    if (arr.every((a, _, arr) => a === arr[0] && a !== -1)) return arr[0];
-    return -1;
+    return mentors.findIndex(mentor =>
+      attr.every(a => mentor[a] === mentee[a])
+    );
   } else {
-    return checkForMatchHelper(mentee, mentors, attr);
+    return mentors.findIndex(mentor => mentor[attr] === mentee[attr]);
   }
 };
 

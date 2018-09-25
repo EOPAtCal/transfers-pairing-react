@@ -8,6 +8,9 @@ const checkForMatch = (mentee, mentors, attr) => {
   }
 };
 
+const checkForMatchHelper = (mentee, mentors, attr) =>
+  mentors.findIndex(mentor => mentor[attr] === mentee[attr]);
+
 const checkForMatch = (mentee, mentors, attr) => {
   let idx1;
   let idx2;
