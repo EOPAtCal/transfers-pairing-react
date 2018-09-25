@@ -37,7 +37,6 @@ const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
         </div>
       </div>
       <hr />
-
       <div
         className="uk-child-width-1-3@s uk-grid-small uk-grid-match"
         uk-grid=""
@@ -93,7 +92,6 @@ const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
         </div>
       ))}
     </div>
-
     <hr className="uk-divider-icon" />
     {(unmatchedMentees.length > 0 || unmatchedMentors.length > 0) && (
       <div>
