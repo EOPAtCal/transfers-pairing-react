@@ -112,12 +112,12 @@ function randomMatch({ matches, unmatchedMentees }) {
   i = 0;
   j = 0;
   const unmatchedMenteesNew = [];
-  while (i < unmatchedMentees.length && j < matches.length) {
+  while (i < unmatchedMentees.length) {
     mentee = unmatchedMentees[i];
     ok = 0;
     while (j < matches.length) {
       if (!isMentorFullyPaired(matches[j])) {
-        pair(matches, j, mentee, 'reason');
+        pair(matches, j, mentee, 'random');
         ok = 1;
         j++;
         break;
