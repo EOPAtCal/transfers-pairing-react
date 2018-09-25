@@ -223,7 +223,6 @@ class Options extends PureComponent {
                     <input
                       className="uk-input uk-form-width-small"
                       type="number"
-                      required
                       value="value"
                       name="name"
                       onChange={this.handleChange}
