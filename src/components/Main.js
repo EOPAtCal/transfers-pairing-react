@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 const getMentorLimit = limit => (limit.charAt(0) === '2' ? 8 : 4);
 
@@ -14,6 +15,22 @@ function InfoCard({ name, email, college, major, limit }) {
       </div>
     </div>
   );
+}
+
+class ClipboardCopy extends PureComponent {
+  state = {
+    copied: false
+  };
+  render() {
+    return (
+      <CopyToClipboard
+        text={this.props.value}
+        onCopy={() => this.setState({ copied: true })}
+      >
+        <button type="button" uk-icon="copy" />
+      </CopyToClipboard>
+    );
+  }
 }
 
 const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
@@ -58,7 +75,10 @@ const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
         >
           <ul className="uk-list">
             <div className="uk-inline">
-              <li>{mentor.id}</li>
+              <li>
+                {mentor.id}
+                <ClipboardCopy value={mentor.email} />
+              </li>
               <InfoCard
                 name={mentor.name}
                 email={mentor.email}
@@ -72,7 +92,7 @@ const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
             {mentees.map((mentee, idx) => [
               <li key={idx}>
                 {mentee.id}
-                <button type="button" uk-icon="copy" />
+                <ClipboardCopy value={mentee.email} />
               </li>,
               <InfoCard
                 name={mentee.name}
@@ -113,7 +133,7 @@ const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
             {unmatchedMentors.map((mentor, idx) => [
               <li key={idx}>
                 {mentor.id}
-                <button type="button" uk-icon="copy" />
+                <ClipboardCopy value={mentor.email} />
               </li>,
               <InfoCard
                 name={mentor.name}
@@ -129,7 +149,7 @@ const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
             {unmatchedMentees.map((mentee, idx) => [
               <li key={idx}>
                 {mentee.id}
-                <button type="button" uk-icon="copy" />
+                <ClipboardCopy value={mentee.email} />
               </li>,
               <InfoCard
                 name={mentee.name}
