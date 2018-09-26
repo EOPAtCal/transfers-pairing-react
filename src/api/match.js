@@ -106,21 +106,14 @@ function match({ mentors, mentees, options }) {
   };
 }
 
-function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-}
-
 function randomMatch({ matches, unmatchedMentees }) {
-  let i, j, ok;
+  let i, j, k, ok;
   let mentee;
   i = 0;
   j = 0;
   const unmatchedMenteesNew = [];
-  shuffleArray(matches);
-  shuffleArray(unmatchedMentees);
+
+  k = 0;
   while (i < unmatchedMentees.length) {
     mentee = unmatchedMentees[i];
     ok = 0;
@@ -133,10 +126,12 @@ function randomMatch({ matches, unmatchedMentees }) {
       }
       j++;
     }
-    if (!ok && j === matches.length) {
+    if (!ok && j === matches.length && k === 0) {
       j = 0;
+      k = 1;
       continue;
     }
+    k = 0;
     if (!ok) {
       unmatchedMenteesNew.push(mentee);
     }
