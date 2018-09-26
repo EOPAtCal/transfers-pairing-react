@@ -106,12 +106,21 @@ function match({ mentors, mentees, options }) {
   };
 }
 
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
 function randomMatch({ matches, unmatchedMentees }) {
   let i, j, ok;
   let mentee;
   i = 0;
   j = 0;
   const unmatchedMenteesNew = [];
+  shuffleArray(matches);
+  shuffleArray(unmatchedMentees);
   while (i < unmatchedMentees.length) {
     mentee = unmatchedMentees[i];
     ok = 0;
@@ -123,6 +132,11 @@ function randomMatch({ matches, unmatchedMentees }) {
         break;
       }
       j++;
+    }
+    if (!ok && j === matches.length) {
+      j = 0;
+      console.log('here', mentee);
+      continue;
     }
     if (!ok) {
       unmatchedMenteesNew.push(mentee);

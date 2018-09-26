@@ -5,7 +5,7 @@ const getMentorLimit = limit => (limit.charAt(0) === '2' ? 8 : 4);
 
 function InfoCard({ name, email, college, major, limit }) {
   return (
-    <div uk-dropdown="pos: bottom-left; delay-hide: 0; animation: uk-animation-slide-bottom-small; ">
+    <div uk-dropdown="pos: bottom-left; delay-hide: 0; animation: uk-animation-slide-bottom-small;">
       <div className="uk-card uk-card-body uk-card-small">
         <h4 className="uk-card-title">{name}</h4>
         <p>{email}</p>
