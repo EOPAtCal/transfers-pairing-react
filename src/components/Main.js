@@ -21,12 +21,13 @@ class ClipboardCopy extends PureComponent {
   state = {
     copied: false
   };
+
+  handleCopy() {
+    this.setState({ copied: true });
+  }
   render() {
     return (
-      <CopyToClipboard
-        text={this.props.value}
-        onCopy={() => this.setState({ copied: true })}
-      >
+      <CopyToClipboard text={this.props.value} onCopy={this.handleCopy}>
         <button type="button" uk-icon="copy" />
       </CopyToClipboard>
     );
