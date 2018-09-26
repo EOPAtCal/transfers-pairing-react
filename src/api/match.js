@@ -135,7 +135,6 @@ function randomMatch({ matches, unmatchedMentees }) {
     }
     if (!ok && j === matches.length) {
       j = 0;
-      console.log('here', mentee);
       continue;
     }
     if (!ok) {
