@@ -107,30 +107,32 @@ function match({ mentors, mentees, options }) {
 }
 
 function randomMatch({ matches, unmatchedMentees }) {
-  let i, j, k, len;
+  let i, j, ok;
   let mentee;
   i = 0;
   j = 0;
-  len = matches.length;
+  const unmatchedMenteesNew = [];
   while (i < unmatchedMentees.length) {
     mentee = unmatchedMentees[i];
-    k = j % len;
-    while (true) {
-      if (!isMentorFullyPaired(matches[j % len])) {
-        pair(matches, j % len, mentee, 'random');
-        j++;
-        break;
-      } else if (j % len === k) {
+    ok = 0;
+    while (j < matches.length) {
+      if (!isMentorFullyPaired(matches[j])) {
+        pair(matches, j, mentee, 'random');
+        ok = 1;
         j++;
         break;
       }
       j++;
     }
+    if (!ok) {
+      unmatchedMenteesNew.push(mentee);
+    }
+    if (j === matches.length) j = 0;
     i++;
   }
   return {
     matches,
-    unmatchedMentees: unmatchedMentees.slice(i)
+    unmatchedMentees: unmatchedMentees.slice(i).concat(unmatchedMenteesNew)
   };
 }
 
