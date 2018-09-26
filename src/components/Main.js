@@ -1,5 +1,4 @@
 import React from 'react';
-// import Empty from './Empty';
 
 const getMentorLimit = limit => (limit.charAt(0) === '2' ? 8 : 4);
 
@@ -92,7 +91,7 @@ const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
         </div>
       ))}
     </div>
-    <hr className="uk-divider-icon" />
+    <hr />
     {(unmatchedMentees.length > 0 || unmatchedMentors.length > 0) && (
       <div>
         <div
