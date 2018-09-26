@@ -106,42 +106,31 @@ function match({ mentors, mentees, options }) {
   };
 }
 
-function randomMatch({ matches, unmatchedMentees }, recurse = 0) {
-  let i, j, ok, edgeCase;
+function randomMatch({ matches, unmatchedMentees }) {
+  let i, j, k, len;
   let mentee;
   i = 0;
   j = 0;
-  const unmatchedMenteesNew = [];
-  edgeCase = 0;
+  len = matches.length;
   while (i < unmatchedMentees.length) {
     mentee = unmatchedMentees[i];
-    ok = 0;
-    while (j < matches.length) {
-      if (!isMentorFullyPaired(matches[j])) {
-        pair(matches, j, mentee, 'random');
-        ok = 1;
+    k = j % len;
+    while (true) {
+      if (!isMentorFullyPaired(matches[j % len])) {
+        pair(matches, j % len, mentee, 'random');
+        j++;
+        break;
+      } else if (j % len === k) {
         j++;
         break;
       }
       j++;
     }
-    if (!ok && j === matches.length) edgeCase = 1;
-    if (!ok) unmatchedMenteesNew.push(mentee);
-    if (j === matches.length) j = 0;
     i++;
-  }
-  if (edgeCase === 1 && recurse === 0) {
-    return randomMatch(
-      {
-        matches,
-        unmatchedMentees: unmatchedMentees.slice(i).concat(unmatchedMenteesNew)
-      },
-      1
-    );
   }
   return {
     matches,
-    unmatchedMentees: unmatchedMentees.slice(i).concat(unmatchedMenteesNew)
+    unmatchedMentees: unmatchedMentees.slice(i)
   };
 }
 

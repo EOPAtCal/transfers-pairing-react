@@ -155,13 +155,15 @@ class Options extends PureComponent {
                   value={mentorEmail}
                   handleChange={this.handleChange}
                 />
-                <InputText
-                  label="mentor limit"
-                  name="mentorLimit"
-                  type="number"
-                  value={mentorLimit}
-                  handleChange={this.handleChange}
-                />
+                {!oneForOne ? (
+                  <InputText
+                    label="mentor limit"
+                    name="mentorLimit"
+                    type="number"
+                    value={mentorLimit}
+                    handleChange={this.handleChange}
+                  />
+                ) : null}
                 {userOptions.map(({ name, mentor }, idx) => (
                   <InputTextUserOptions
                     key={idx}
@@ -219,19 +221,21 @@ class Options extends PureComponent {
                   value={menteeEmail}
                   handleChange={this.handleChange}
                 />
-                <div className="uk-margin uk-invisible">
-                  <label className="uk-form-label">label</label>
-                  <div className="uk-form-controls">
-                    <input
-                      className="uk-input uk-form-width-small"
-                      type="number"
-                      value="value"
-                      name="name"
-                      onChange={this.handleChange}
-                      noValidate
-                    />
+                {!oneForOne ? (
+                  <div className="uk-margin uk-invisible">
+                    <label className="uk-form-label">label</label>
+                    <div className="uk-form-controls">
+                      <input
+                        className="uk-input uk-form-width-small"
+                        type="number"
+                        value="value"
+                        name="name"
+                        onChange={this.handleChange}
+                        noValidate
+                      />
+                    </div>
                   </div>
-                </div>
+                ) : null}
                 {userOptions.map(({ name, mentee }, idx) => (
                   <InputTextUserOptions
                     key={idx}
