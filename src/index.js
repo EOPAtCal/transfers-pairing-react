@@ -15,7 +15,7 @@ class App extends PureComponent {
     matches: [],
     unmatchedMentees: [],
     unmatchedMentors: [],
-    options: defaults,
+    options: App.getOptions(),
     isLoading: true
   };
 
@@ -37,13 +37,30 @@ class App extends PureComponent {
     });
   }
 
+  static getOptions() {
+    let options;
+    try {
+      options = localStorage.getItem('options');
+      if (!options) throw Error('no locally stored options');
+      else options = JSON.parse(options);
+    } catch (error) {
+      options = defaults;
+    }
+    return options;
+  }
+
+  saveOptions = options => () => {
+    localStorage.setItem('options', JSON.stringify(options));
+    this.notifySucccess();
+  };
+
   handleChangeOptions = (options, isValid) => {
     if (isValid) {
       this.setState(
         {
           options
         },
-        this.notifySucccess
+        this.saveOptions(options)
       );
     } else {
       this.notifyFailure();
@@ -103,7 +120,7 @@ class App extends PureComponent {
       matches = [],
       unmatchedMentees = [],
       unmatchedMentors = [],
-      options = {},
+      options,
       isLoading
     } = this.state;
     return isLoading ? (
