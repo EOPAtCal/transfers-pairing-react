@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
-const getMentorLimit = limit => (limit.charAt(0) === '2' ? 8 : 4);
-
 function InfoCard({ name, email, college, major, limit }) {
   return (
     <div uk-dropdown="pos: bottom-left; delay-hide: 0; animation: uk-animation-slide-bottom-small;">
@@ -11,7 +9,7 @@ function InfoCard({ name, email, college, major, limit }) {
         <p>{email}</p>
         <p>{college}</p>
         <p>{major}</p>
-        {limit && <div className="uk-label">{getMentorLimit(limit)}</div>}
+        {limit && <div className="uk-label">{limit}</div>}
       </div>
     </div>
   );
@@ -108,8 +106,8 @@ const Main = ({
                 <ClipboardCopy value={mentee.email} />
               </li>,
               <InfoCard
-                name={mentee.name}
                 key={mentee.email}
+                name={mentee.name}
                 email={mentee.email}
                 college={mentee.college}
                 major={mentee.major}
@@ -149,8 +147,8 @@ const Main = ({
                 <ClipboardCopy value={mentor.email} />
               </li>,
               <InfoCard
-                name={mentor.name}
                 key={mentor.email}
+                name={mentor.name}
                 email={mentor.email}
                 college={mentor.college}
                 major={mentor.major}
@@ -165,8 +163,8 @@ const Main = ({
                 <ClipboardCopy value={mentee.email} />
               </li>,
               <InfoCard
-                name={mentee.name}
                 key={mentee.email}
+                name={mentee.name}
                 email={mentee.email}
                 college={mentee.college}
                 major={mentee.major}

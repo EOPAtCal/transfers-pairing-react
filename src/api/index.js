@@ -43,8 +43,7 @@ async function handleSignoutClick(event) {
   window.location.reload(true);
 }
 
-const getNames = (arr, row) =>
-  arr.reduce((res, index) => res + row[index] + ' ', '');
+const getNames = (arr, row) => arr.map(idx => row[idx]).join(' ');
 
 const convertStringToArrInts = str =>
   str ? str.split(',').map(num => parseInt(num, 10)) : [];
@@ -64,6 +63,11 @@ async function selectMentee(row) {
   );
 }
 
+function getMentorLimit(limit) {
+  if (options.oneForOne) return 1;
+  else return (limit && limit.charAt(0)) === '2' ? 8 : 4;
+}
+
 function selectMentor(row) {
   return new Promise(resolve => {
     resolve(
@@ -71,7 +75,7 @@ function selectMentor(row) {
         {
           name: getNames(convertStringToArrInts(options.mentorName), row),
           email: row[options.mentorEmail],
-          limit: row[options.mentorLimit],
+          limit: getMentorLimit(row[options.mentorLimit]),
           get id() {
             return this.email;
           }

@@ -3,8 +3,8 @@ function pair(matchesRaw, matchIdx, mentee, reason) {
   matchesRaw[matchIdx].reasons.push(reason);
 }
 
-const isMentorFullyPaired = ({ mentees, maxMenteesSize }) => {
-  return maxMenteesSize === mentees.length;
+const isMentorFullyPaired = ({ mentor, mentees }) => {
+  return mentor.limit === mentees.length;
 };
 
 const checkForMatch = (mentee, mentors, attr) => {
@@ -17,19 +17,15 @@ const checkForMatch = (mentee, mentors, attr) => {
   }
 };
 
-const getMentorLimit = ({ limit }) =>
-  limit && limit.charAt(0) === '2' ? 8 : 4;
-
 const getMatchIdx = (matchesRaw, mentor) =>
   matchesRaw.findIndex(match => match.mentor.id === mentor.id);
 
-function setup(mentors, oneForOne) {
+function setup(mentors) {
   const matchesRaw = [];
   mentors.forEach((mentor, idx) => {
     matchesRaw[idx] = {
       mentor: mentor,
       mentees: [],
-      maxMenteesSize: oneForOne ? 1 : getMentorLimit(mentor),
       reasons: []
     };
   });
@@ -72,7 +68,7 @@ function match({ mentors, mentees, options }) {
   let names;
   let all;
   const unmatchedMentees = [];
-  const matchesRaw = setup(mentors, options.oneForOne);
+  const matchesRaw = setup(mentors);
   mentors = mentors.slice(0);
   menteeIdx = 0;
   while (mentors.length > 0 && menteeIdx < mentees.length) {
