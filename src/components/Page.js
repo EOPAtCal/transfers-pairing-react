@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Options from './Options';
 import Main from './Main';
 import Empty from './Empty';
@@ -20,46 +20,39 @@ const Page = ({
   unmatchedMentors,
   unmatchedMentees
 }) => (
-  <div uk-grid="">
-    <div className="uk-width-auto@m">
-      <ul
-        className="uk-tab-left"
-        uk-tab="connect: #component-tab-left; animation: uk-animation-fade"
-      >
-        <li>
-          <a>Results</a>
-        </li>
-        <li>
-          <a>Options</a>
-        </li>
-      </ul>
-    </div>
-    <div className="uk-width-expand@m">
-      <ul id="component-tab-left" className="uk-switcher">
-        <li>
-          {matches.length === 0 &&
-          unmatchedMentors.length === 0 &&
-          unmatchedMentees.length === 0 ? (
-            <Empty />
-          ) : (
-            <Main
-              handleMatch={handleMatch}
-              matches={matches}
-              unmatchedMentees={unmatchedMentees}
-              unmatchedMentors={unmatchedMentors}
-              reasons={getAllMatchingReasons(options)}
-            />
-          )}
-        </li>
-        <li>
-          <Options
-            options={options}
-            handleChangeOptions={handleChangeOptions}
+  <Fragment>
+    <ul
+      className="uk-subnav uk-subnav-pill uk-flex-center"
+      uk-switcher="animation: uk-animation-fade"
+    >
+      <li>
+        <a>Results</a>
+      </li>
+      <li>
+        <a>Options</a>
+      </li>
+    </ul>
+    <ul className="uk-switcher uk-margin">
+      <li>
+        {matches.length === 0 &&
+        unmatchedMentors.length === 0 &&
+        unmatchedMentees.length === 0 ? (
+          <Empty />
+        ) : (
+          <Main
+            handleMatch={handleMatch}
+            matches={matches}
+            unmatchedMentees={unmatchedMentees}
+            unmatchedMentors={unmatchedMentors}
+            reasons={getAllMatchingReasons(options)}
           />
-        </li>
-      </ul>
-    </div>
-  </div>
+        )}
+      </li>
+      <li>
+        <Options options={options} handleChangeOptions={handleChangeOptions} />
+      </li>
+    </ul>
+  </Fragment>
 );
 
 export default Page;
