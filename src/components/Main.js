@@ -34,7 +34,13 @@ class ClipboardCopy extends PureComponent {
   }
 }
 
-const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
+const Main = ({
+  matches,
+  handleMatch,
+  unmatchedMentors,
+  unmatchedMentees,
+  reasons
+}) => (
   <div>
     <div>
       <div className="uk-flex-middle uk-flex-between" uk-grid="">
@@ -43,6 +49,7 @@ const Main = ({ matches, handleMatch, unmatchedMentors, unmatchedMentees }) => (
             results
           </h2>
         </div>
+        <div>{reasons}</div>
         <div>
           <button
             type="submit"

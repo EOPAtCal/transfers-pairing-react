@@ -3,6 +3,15 @@ import Options from './Options';
 import Main from './Main';
 import Empty from './Empty';
 
+const getAllMatchingReasons = ({ userOptions, randomMatch, oneForOne }) =>
+  [
+    ...userOptions
+      .filter(({ matchBy }) => matchBy === true)
+      .map(({ name }) => name),
+    ...(randomMatch ? ['random'] : ''),
+    ...(oneForOne ? ['oneForOne'] : '')
+  ].join(', ');
+
 const Page = ({
   matches,
   options,
@@ -38,6 +47,7 @@ const Page = ({
               matches={matches}
               unmatchedMentees={unmatchedMentees}
               unmatchedMentors={unmatchedMentors}
+              reasons={getAllMatchingReasons(options)}
             />
           )}
         </li>
