@@ -49,7 +49,12 @@ const Main = ({
             results
           </h2>
         </div>
-        <div>{reasons}</div>
+        <div>
+          <p>
+            <span className="uk-text-muted">matching by: </span>
+            <strong>{reasons}</strong>
+          </p>
+        </div>
         <div>
           <button
             type="submit"

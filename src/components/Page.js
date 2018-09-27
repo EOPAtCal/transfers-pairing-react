@@ -9,7 +9,7 @@ const getAllMatchingReasons = ({ userOptions, randomMatch, oneForOne }) =>
       .filter(({ matchBy }) => matchBy === true)
       .map(({ name }) => name),
     ...(randomMatch ? ['random'] : ''),
-    ...(oneForOne ? ['oneForOne'] : '')
+    ...(oneForOne ? ['one for one'] : '')
   ].join(', ');
 
 const Page = ({
